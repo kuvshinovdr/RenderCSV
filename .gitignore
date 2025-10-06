@@ -23,9 +23,11 @@
 *.dylib
 *.dll
 
-# Fortran module files
-*.mod
-*.smod
+# IDE garbage
+.vscode/
+.idea/
+.vs/
+*.vcxproj.user
 
 # Compiled Static libraries
 *.lai
