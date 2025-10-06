@@ -9,28 +9,28 @@ cmake_minimum_required(VERSION 4.1)
 set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
 
 # Define the project and enable the C++ language.
-project(MyModernCppProject LANGUAGES CXX)
+project(RenderCSV LANGUAGES CXX)
 
 # --- Main Program Target Definition ---
 
 # 1. Define the executable with its "normal" sources (main + implementations).
-add_executable(my_program
+add_executable(render_csv
     main.cpp
     hellomath.cpp
 )
 
 # 2. Declare the module INTERFACE files for the target.
-target_sources(my_program PUBLIC
+target_sources(render_csv PUBLIC
     FILE_SET cxx_modules TYPE CXX_MODULES FILES
         hellomath.cppm
 )
 
 # 3. Set the C++ standard for the target.
-target_compile_features(my_program PUBLIC cxx_std_23)
+target_compile_features(render_csv PUBLIC cxx_std_23)
 
 # 4. For the target, explicitly enable std module dependency scanning.
 # This works in conjunction with the master experimental switch.
-set_property(TARGET my_program PROPERTY CXX_MODULE_STD ON)
+set_property(TARGET render_csv PROPERTY CXX_MODULE_STD ON)
 
 # --- Compiler-Specific Checks & Common Settings ---
 

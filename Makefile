@@ -12,7 +12,7 @@ GCM_DIR := gcm.cache
 
 # --- Target Definition ---
 # The final executable will be placed in the BIN_DIR
-TARGET := $(BIN_DIR)/my_program
+TARGET := $(BIN_DIR)/render_csv
 
 # --- Automatic Source File Discovery ---
 MAIN_SRC := main.cpp
