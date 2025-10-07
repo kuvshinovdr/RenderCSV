@@ -4,12 +4,12 @@ export import table_reader;
 
 export namespace render_csv::csv
 {
-	
-	class CsvReader
-		: public TableReader
-	{
-	public:
-	
-	};
-	
+    
+    class CsvReader
+        : public TableReader
+    {
+    public:
+    
+    };
+    
 }

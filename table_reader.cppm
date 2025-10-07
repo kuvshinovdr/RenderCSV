@@ -5,11 +5,11 @@ export import table_data;
 export namespace render_csv
 {
 
-	class TableReader
-	{
-	public:
-		virtual ~TableReader() = default;
-		
-	};
+    class TableReader
+    {
+    public:
+        virtual ~TableReader() = default;
+        
+    };
 
 }
