@@ -1,8 +1,8 @@
-export module csv;
+﻿export module csv;
 
 export import table_reader;
 
-export namespace render_csv
+export namespace render_csv::csv
 {
 	
 	class CsvReader
