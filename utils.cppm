@@ -14,20 +14,18 @@ export namespace render_csv
     using String =
         std::string;
 
-}
-
-export namespace render_csv::utils
-{
+    using ErrorCode =
+        std::error_code;
 
     using FileToStringResult =
-        std::expected<String, std::error_code>;
+        std::expected<String, ErrorCode>;
 
     /// @brief Прочитать заданный файл в память целиком как двоичные данные и вернуть как объект String. 
     [[nodiscard]] auto fileToString(FilePath const& filename) noexcept
         -> FileToStringResult;
 
     using StringToFileResult =
-        std::expected<void, std::error_code>;
+        std::expected<void, ErrorCode>;
 
     enum class FileUpdateMode
     {
@@ -36,7 +34,7 @@ export namespace render_csv::utils
     };
     
     /// @brief Записать данные StringView в заданный файл как двоичные данные.
-    auto stringToFile(FilePath const& filename, 
+    auto stringToFile(FilePath const&   filename, 
                         StringView      data, 
                         FileUpdateMode  mode = FileUpdateMode::Rewrite
                         ) noexcept -> StringToFileResult;

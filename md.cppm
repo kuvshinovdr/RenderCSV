@@ -2,7 +2,7 @@
 
 export import table_writer;
 
-export namespace render_csv::md
+export namespace render_csv
 {
 
     class MarkdownWriter
@@ -10,6 +10,8 @@ export namespace render_csv::md
     {
     public:
     
+        static auto test() noexcept
+            -> int;
     };
 
 }

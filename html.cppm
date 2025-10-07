@@ -2,7 +2,7 @@
 
 export import table_writer;
 
-export namespace render_csv::html
+export namespace render_csv
 {
 
     class HtmlWriter
@@ -10,6 +10,8 @@ export namespace render_csv::html
     {
     public:
     
+        static auto test() noexcept
+            -> int;
     };
 
 }

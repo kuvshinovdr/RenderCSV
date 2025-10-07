@@ -1,6 +1,6 @@
 ﻿export module config;
 
-export namespace render_csv::config
+export namespace render_csv
 {
 
     class Config
@@ -8,9 +8,8 @@ export namespace render_csv::config
     public:
         virtual ~Config() = default;
         
+        static auto test() noexcept
+            -> int;
     };
-
-
-
 
 }
