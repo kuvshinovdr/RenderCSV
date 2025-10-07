@@ -1,6 +1,6 @@
 ﻿export module csv;
 
-export import table_reader;
+export import a_table_reader;
 
 export namespace render_csv
 {

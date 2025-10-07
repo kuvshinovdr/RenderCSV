@@ -42,13 +42,13 @@
     <ClCompile Include="md.cppm">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="table_data.cppm">
+    <ClCompile Include="a_table_data.cppm">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="table_reader.cppm">
+    <ClCompile Include="a_table_reader.cppm">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="table_writer.cppm">
+    <ClCompile Include="a_table_writer.cppm">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="utils.cpp">

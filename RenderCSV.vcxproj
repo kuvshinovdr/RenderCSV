@@ -136,9 +136,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="md.cpp" />
     <ClCompile Include="md.cppm" />
-    <ClCompile Include="table_data.cppm" />
-    <ClCompile Include="table_reader.cppm" />
-    <ClCompile Include="table_writer.cppm" />
+    <ClCompile Include="a_table_data.cppm" />
+    <ClCompile Include="a_table_reader.cppm" />
+    <ClCompile Include="a_table_writer.cppm" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="utils.cppm" />
   </ItemGroup>

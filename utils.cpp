@@ -43,7 +43,7 @@ namespace render_csv
     }
 
     [[nodiscard]] auto toIosMode(FileUpdateMode mode) noexcept
-        -> int
+        -> std::ios_base::openmode
     {
         switch (mode) {
         case FileUpdateMode::Rewrite:

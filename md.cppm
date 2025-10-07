@@ -1,6 +1,6 @@
 ﻿export module md;
 
-export import table_writer;
+export import a_table_writer;
 
 export namespace render_csv
 {
