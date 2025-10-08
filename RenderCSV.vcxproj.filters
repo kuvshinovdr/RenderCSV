@@ -51,10 +51,10 @@
     <ClCompile Include="a_table_writer.cppm">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="utils.cpp">
+    <ClCompile Include="a_utils.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="utils.cppm">
+    <ClCompile Include="a_utils.cppm">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

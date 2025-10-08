@@ -2,7 +2,8 @@
 
 # Compiler and flags
 CXX := g++
-CXXFLAGS := -std=c++23 -fmodules
+CXXFLAGS := -Os -std=c++2c -fmodules -march=native -Wall -pedantic
+CXXLINKFLAGS := -lstdc++exp
 
 # --- Directory Definitions ---
 # Use variables for output directories for easy configuration
@@ -45,7 +46,7 @@ all: $(TARGET)
 # Depends on all object files and ensures the bin directory exists
 $(TARGET): $(OBJS) | $(BIN_DIR)
 	@echo "==> Linking executable: $@"
-	$(CXX) $(CXXFLAGS) $^ -o $@
+	$(CXX) $(CXXFLAGS) $^ $(CXXLINKFLAGS) -o $@
 
 # Rule to compile the main source file
 # Depends on its source and the .gcm files it imports

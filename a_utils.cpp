@@ -1,4 +1,4 @@
-﻿module utils;
+﻿module a_utils;
 
 import std;
 

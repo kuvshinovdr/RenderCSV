@@ -139,8 +139,8 @@
     <ClCompile Include="a_table_data.cppm" />
     <ClCompile Include="a_table_reader.cppm" />
     <ClCompile Include="a_table_writer.cppm" />
-    <ClCompile Include="utils.cpp" />
-    <ClCompile Include="utils.cppm" />
+    <ClCompile Include="a_utils.cpp" />
+    <ClCompile Include="a_utils.cppm" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

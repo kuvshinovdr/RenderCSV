@@ -12,17 +12,16 @@ set(CMAKE_EXPERIMENTAL_CXX_IMPORT_STD "d0edc3af-4c50-42ea-a356-e2862fe7a444")
 project(RenderCSV LANGUAGES CXX)
 
 # --- Main Program Target Definition ---
+file(GLOB_RECURSE SOURCE_FILES "*.cpp")
+file(GLOB_RECURSE INTERFACE_FILES "*.cppm")
 
 # 1. Define the executable with its "normal" sources (main + implementations).
-add_executable(render_csv
-    main.cpp
-    hellomath.cpp
-)
+add_executable(render_csv ${SOURCE_FILES})
 
 # 2. Declare the module INTERFACE files for the target.
 target_sources(render_csv PUBLIC
     FILE_SET cxx_modules TYPE CXX_MODULES FILES
-        hellomath.cppm
+        ${INTERFACE_FILES}
 )
 
 # 3. Set the C++ standard for the target.
@@ -34,8 +33,12 @@ set_property(TARGET render_csv PROPERTY CXX_MODULE_STD ON)
 
 # --- Compiler-Specific Checks & Common Settings ---
 
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 14)
-    message(FATAL_ERROR "GCC version 14 or newer is required for C++23 modules.")
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND CMAKE_CXX_COMPILER_VERSION VERSION_LESS 15)
+    message(FATAL_ERROR "GCC version 15 or newer is required for this project.")
+endif()
+
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+	target_link_libraries(render_csv stdc++exp)
 endif()
 
 # Organize output directories.
