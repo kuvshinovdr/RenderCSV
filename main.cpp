@@ -19,6 +19,8 @@ try
 {
 	using namespace render_csv;
 
+	std::println(ProgramInfo);
+
 	auto config { Config::fromCommandline(argc, argv) };
 	if (!config) {
 		throw std::runtime_error("failed to create Config instance");

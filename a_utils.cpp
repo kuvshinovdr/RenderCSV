@@ -35,7 +35,7 @@ namespace render_csv
         }
 
         file.read(result.data(), dataSize);
-        if (file.gcount() != dataSize) {
+        if (std::cmp_not_equal(file.gcount(), dataSize)) {
             return std::unexpected(std::make_error_code(std::errc::interrupted));
         }
 
