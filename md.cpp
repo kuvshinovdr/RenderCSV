@@ -1,6 +1,5 @@
-﻿module md;
-
-import std;
+﻿/// @file  md.cpp
+#include "md.hpp"
 
 namespace render_csv
 {

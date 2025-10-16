@@ -1,9 +1,13 @@
-﻿import std;
-import config;
-import csv;
-import html;
-import md;
-import a_utils;
+﻿/// @file  main.cpp
+/// @brief Точка входа.
+#include "config.hpp"
+#include "csv.hpp"
+#include "html.hpp"
+#include "md.hpp"
+
+#include <string_view>
+#include <stdexcept>
+#include <print>
 
 using namespace std::literals;
 

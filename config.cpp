@@ -1,57 +1,66 @@
-﻿module config;
+﻿/// @file  config.cpp
+#include "config.hpp"
+#include "string_operations_fwd.hpp"
 
-import std;
+#include <vector>
+#include <print>
 
 namespace render_csv
 {
 
-    class ConfigImpl
-        : public Config
+    namespace
     {
-    public:
-        ConfigImpl(int argc, char* argv[]) noexcept
+
+        class ConfigImpl
+            : public Config
         {
-            for (int i = 1; i < argc; ++i) {
-                auto const arg { std::string_view(argv[i]) };
-                if (validateArgument(arg)) {
+        public:
+            ConfigImpl(int argc, char* argv[]) noexcept
+            {
+                for (int i = 1; i < argc; ++i) {
+                    auto const arg { std::string_view(argv[i]) };
+                    if (validateArgument(arg)) {
                     
+                    }
                 }
             }
-        }
 
-        bool needTesting() const noexcept override
-        {
-            return m_needTesting;
-        }
+            bool needTesting() const noexcept override
+            {
+                return m_needTesting;
+            }
 
-        bool needHelp() const noexcept override
-        {
-            return m_needHelp;
-        }
+            bool needHelp() const noexcept override
+            {
+                return m_needHelp;
+            }
 
-        auto getArgumentValidationLog() const noexcept
-            -> ArgumentValidationLog override
-        {
-            return ArgumentValidationLog(m_argumentValidationLog);
-        }
+            auto getArgumentValidationLog() const noexcept
+                -> ArgumentValidationLog override
+            {
+                return ArgumentValidationLog(m_argumentValidationLog);
+            }
 
-        static auto test() noexcept
-            -> int
-        {
-            return 0;
-        }
+            static auto test() noexcept
+                -> int
+            {
+                return 0;
+            }
 
-    private:
-        bool m_needTesting  { false };
-        bool m_needHelp     { false };
+        private:
+            bool m_needTesting  { false };
+            bool m_needHelp     { false };
 
-        std::vector<ArgumentValidationEntry> m_argumentValidationLog;
+            std::vector<ArgumentValidationEntry>
+                 m_argumentValidationLog;
 
-        [[nodiscard]] bool validateArgument(std::string_view arg) const noexcept
-        {
-            return true;
-        }
-    };
+            [[nodiscard]] bool validateArgument(std::string_view arg) const noexcept
+            {
+                return true;
+            }
+        };
+
+    }
 
     auto Config::fromCommandline(int argc, char* argv[])
         -> OwnerPtr

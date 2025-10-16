@@ -1,9 +1,13 @@
-﻿export module config;
+﻿/// @file  config.hpp
+/// @brief Класс, отвечающий за настройки программы.
+#ifndef RENDER_CSV_CONFIG_HPP_INCLUDED
+#define RENDER_CSV_CONFIG_HPP_INCLUDED
 
-import std;
-import a_utils;
+#include "string_operations_fwd.hpp"
+#include <span>
+#include <memory>
 
-export namespace render_csv
+namespace render_csv
 {
 
     class Config
@@ -26,7 +30,7 @@ export namespace render_csv
 
         [[nodiscard]] virtual auto getArgumentValidationLog() const noexcept
             -> ArgumentValidationLog = 0;
-        
+
         using OwnerPtr =
             std::unique_ptr<Config>;
 
@@ -38,3 +42,5 @@ export namespace render_csv
     };
 
 }
+
+#endif//RENDER_CSV_CONFIG_HPP_INCLUDED
