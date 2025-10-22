@@ -1,5 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include <doctest/doctest.h>
+#include <doctest.h>
+#include <print>
 
 TEST_CASE("std::println works") {
     // This will compile only if libstdc++exp is linked (GCC ≥15)

@@ -10,7 +10,7 @@ test_sources = ['test.cpp']
 rendercsv_tests = executable('rendercsv_tests',
 	test_sources,
 	dependencies: doctest_dep,
-	include_directories: include_directories('../src'),
+	include_directories: inc,
 	link_args: linkargs,
 	install: false
 )

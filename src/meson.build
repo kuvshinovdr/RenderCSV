@@ -10,9 +10,11 @@ source_files = [
 	'main.cpp',
 ]
 
+inc = include_directories('.')
+
 # Create main executable
 executable('rendercsv', source_files,
-  include_directories: include_directories('../src'),
+  include_directories: inc,
   install: true,
   link_args: linkargs
 )

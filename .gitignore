@@ -44,3 +44,7 @@ Release/
 
 # debug information files
 *.dwo
+
+# Meson
+.wraplock
+

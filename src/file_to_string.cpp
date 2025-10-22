@@ -1,6 +1,7 @@
 ﻿/// @file  file_to_string.hpp
 #include "file_to_string.hpp"
 #include <fstream>
+#include <utility>
 
 namespace render_csv
 {
