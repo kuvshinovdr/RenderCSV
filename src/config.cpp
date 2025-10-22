@@ -48,11 +48,11 @@ namespace render_csv
             }
 
         private:
+            std::vector<ArgumentValidationEntry>
+                m_argumentValidationLog;
+
             bool m_needTesting  { false };
             bool m_needHelp     { false };
-
-            std::vector<ArgumentValidationEntry>
-                 m_argumentValidationLog;
 
             [[nodiscard]] bool validateArgument(std::string_view arg) const noexcept
             {

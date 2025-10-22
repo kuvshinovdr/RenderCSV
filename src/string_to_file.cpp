@@ -29,7 +29,12 @@ namespace render_csv
             return std::unexpected(std::make_error_code(std::errc::read_only_file_system));
         }
 
-        file.write(data.data(), data.size());
+        if (std::cmp_greater(data.size(), std::numeric_limits<std::streamsize>::max())) {
+            return std::unexpected(std::make_error_code(std::errc::value_too_large));
+            // Эту ситуацию можно решить без ошибки, но её возникновение в реальности невероятно.
+        }
+
+        file.write(data.data(), static_cast<std::streamsize>(data.size()));
         if (file.bad()) {
             return std::unexpected(std::make_error_code(std::errc::interrupted));
         }
