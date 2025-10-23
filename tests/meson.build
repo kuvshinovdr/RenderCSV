@@ -1,14 +1,19 @@
+# Dependencies
 doctest_proj = subproject('doctest')
 doctest_dep = doctest_proj.get_variable('doctest_dep')
 
-# Automatically collect all test .cpp files
-test_sources = ['test.cpp']
+# Test sources
+tests = [
+	'test_config.cpp',
+]
+
+test_sources = files(tests)
 
 # Build test executable
 # doctest provides its own main() if you define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN,
 # but it's cleaner to let the subproject handle it via the dependency.
 rendercsv_tests = executable('rendercsv_tests',
-	test_sources,
+	source_files + test_sources + files(['test_main.cpp']),
 	dependencies: doctest_dep,
 	include_directories: inc,
 	link_args: linkargs,

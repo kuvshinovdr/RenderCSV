@@ -6,6 +6,7 @@
 #include "string_operations_fwd.hpp"
 #include <memory>
 #include <vector>
+#include <span>
 
 namespace render_csv
 {
@@ -38,6 +39,11 @@ namespace render_csv
 
             Inputs  in          {};
         };
+
+        using FileGroups =
+            std::vector<FileGroup>;
+
+        FileGroups fileGroups   {};
     };
 
     struct CommandLineArguments
@@ -57,8 +63,17 @@ namespace render_csv
         ErrorLog    errorLog    {};
     };
 
-    [[nodiscard]] auto readCommandLineArguments(int argc, char* argv[])
+    /// @brief Принять набор аргументов командной строки (нумерация с нуля, все аргументы проверяются).
+    [[nodiscard]] auto readCommandLineArguments(std::span<char const* const> args)
         -> CommandLineArguments;
+
+    /// @brief Принять набор аргументов командной строки в стандартной POSIX-форме. 
+    [[nodiscard]] inline auto readCommandLineArguments(int argc, char* argv[])
+        -> CommandLineArguments
+    {
+        auto arg { static_cast<char const* const*>(argv) };
+        return readCommandLineArguments(std::span(arg + 1, arg + argc));
+    }
 
 }
 

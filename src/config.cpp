@@ -6,17 +6,17 @@
 namespace render_csv
 {
 
-    auto readCommandLineArguments(int argc, char* argv[])
+    auto readCommandLineArguments(std::span<char const* const> args)
         -> CommandLineArguments
     {
         CommandLineArguments result {};
-        auto& data = result.configData;
-        auto& log  = result.errorLog;
+        auto& data { result.configData };
+        auto& log  { result.errorLog   };
         
         ConfigData::FileGroup current {};
+        auto  many { false };
 
-        for (int i = 1; i < argc; ++i) {
-            StringView arg { argv[i] };
+        for (StringView arg: args) {
             std::println("TODO: parse argument {}\n", arg);
             // TODO
         }
