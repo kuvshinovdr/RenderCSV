@@ -4,42 +4,61 @@
 #define RENDER_CSV_CONFIG_HPP_INCLUDED
 
 #include "string_operations_fwd.hpp"
-#include <span>
 #include <memory>
+#include <vector>
 
 namespace render_csv
 {
 
-    class Config
+    struct ConfigData
     {
-    public:
-        virtual ~Config() = default;
+        bool    help        { false };
+        bool    version     { false };
 
-        [[nodiscard]] virtual bool needTesting() const noexcept = 0;
-        [[nodiscard]] virtual bool needHelp() const noexcept = 0;
-
-        struct ArgumentValidationEntry
+        struct FileGroup
         {
-            StringView argument;
-            StringView error;
-            StringView details;
+            using Inputs =
+                std::vector<String>;
+
+            bool    md          { false };
+            bool    html        { false };
+                    
+            bool    overwrite   { false };
+            bool    append      { false };
+            bool    prepend     { false };
+            
+            String  htmlType    {};
+            String  mdType      {};
+            String  title       {};
+            String  out         {};
+            String  head        {};
+            String  mid         {};
+            String  foot        {};
+            String  css         {};
+
+            Inputs  in          {};
+        };
+    };
+
+    struct CommandLineArguments
+    {
+        ConfigData  configData  {};
+
+        struct ErrorLogEntry
+        {
+            StringView argument {};
+            StringView error    {};
+            String     details  {};
         };
 
-        using ArgumentValidationLog
-            = std::span<ArgumentValidationEntry const>;
+        using ErrorLog =
+            std::vector<ErrorLogEntry>;
 
-        [[nodiscard]] virtual auto getArgumentValidationLog() const noexcept
-            -> ArgumentValidationLog = 0;
-
-        using OwnerPtr =
-            std::unique_ptr<Config>;
-
-        [[nodiscard]] static auto fromCommandline(int argc, char* argv[])
-            -> OwnerPtr;
-
-        static auto test() noexcept
-            -> int;
+        ErrorLog    errorLog    {};
     };
+
+    [[nodiscard]] auto readCommandLineArguments(int argc, char* argv[])
+        -> CommandLineArguments;
 
 }
 

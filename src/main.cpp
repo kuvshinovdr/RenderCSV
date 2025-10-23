@@ -11,36 +11,42 @@
 
 using namespace std::literals;
 
-constexpr auto ProgramInfo { "RenderCSV v.0.1"sv };
+constexpr auto ProgramInfo { "RenderCSV v.1.0 development"sv };
 
 constexpr auto ProgramHelp 
 { R"!(
 CSV to HTML or Markdown conversion utility.
 )!"sv };
 
+///////////////////////////////////////////////////////////////////////////////
+// Точка входа
+///////////////////////////////////////////////////////////////////////////////
+
 int main(int argc, char* argv[])
 try
 {
 	using namespace render_csv;
 
-	std::println(ProgramInfo);
+	auto commandLineArguments = readCommandLineArguments(argc, argv);
 
-	auto config { Config::fromCommandline(argc, argv) };
-	if (!config) {
-		throw std::runtime_error("failed to create Config instance");
-	}
-
-	if (config->needTesting()) {
-		Config::test();
-		CsvReader::test();
-		HtmlWriter::test();
-		MarkdownWriter::test();
-	}
-
-	if (config->needHelp()) {
+	if (commandLineArguments.configData.help) {
 		std::println("{}\n\n{}", ProgramInfo, ProgramHelp);
+		return 0;
+	}
+
+	if (commandLineArguments.configData.version) {
+		std::println("{}\n", ProgramInfo);
+		return 0;
 	}
 	
+	if (!commandLineArguments.errorLog.empty()) {
+		std::println("TODO: report CLI errors\n");
+		// TODO
+	}
+
+	std::println("TODO: main operation\n");
+	// TODO
+
 	return 0;
 }
 catch (std::exception const& e)

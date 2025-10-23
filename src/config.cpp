@@ -1,78 +1,27 @@
 ﻿/// @file  config.cpp
 #include "config.hpp"
 #include "string_operations_fwd.hpp"
-
-#include <vector>
 #include <print>
 
 namespace render_csv
 {
 
-    namespace
+    auto readCommandLineArguments(int argc, char* argv[])
+        -> CommandLineArguments
     {
+        CommandLineArguments result {};
+        auto& data = result.configData;
+        auto& log  = result.errorLog;
+        
+        ConfigData::FileGroup current {};
 
-        class ConfigImpl
-            : public Config
-        {
-        public:
-            ConfigImpl(int argc, char* argv[]) noexcept
-            {
-                for (int i = 1; i < argc; ++i) {
-                    auto const arg { std::string_view(argv[i]) };
-                    if (validateArgument(arg)) {
-                    
-                    }
-                }
-            }
+        for (int i = 1; i < argc; ++i) {
+            StringView arg { argv[i] };
+            std::println("TODO: parse argument {}\n", arg);
+            // TODO
+        }
 
-            bool needTesting() const noexcept override
-            {
-                return m_needTesting;
-            }
-
-            bool needHelp() const noexcept override
-            {
-                return m_needHelp;
-            }
-
-            auto getArgumentValidationLog() const noexcept
-                -> ArgumentValidationLog override
-            {
-                return ArgumentValidationLog(m_argumentValidationLog);
-            }
-
-            static auto test() noexcept
-                -> int
-            {
-                return 0;
-            }
-
-        private:
-            std::vector<ArgumentValidationEntry>
-                m_argumentValidationLog;
-
-            bool m_needTesting  { false };
-            bool m_needHelp     { false };
-
-            [[nodiscard]] bool validateArgument(std::string_view arg) const noexcept
-            {
-                return true;
-            }
-        };
-
-    }
-
-    auto Config::fromCommandline(int argc, char* argv[])
-        -> OwnerPtr
-    {
-        return OwnerPtr { new ConfigImpl(argc, argv) };
-    }
-
-    auto Config::test() noexcept
-        -> int
-    {
-        std::println("\nConfig::test");
-        return ConfigImpl::test();
+        return result;
     }
 
 }
