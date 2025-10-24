@@ -18,15 +18,24 @@ namespace render_csv
 
         struct FileGroup
         {
-            using Inputs =
-                std::vector<String>;
+            enum class OutputFormat
+            {
+                Unspecified,
+                Markdown,
+                Html,
+            };
 
-            bool    md          { false };
-            bool    html        { false };
-                    
-            bool    overwrite   { false };
-            bool    append      { false };
-            bool    prepend     { false };
+            OutputFormat    outputFormat    { OutputFormat::Unspecified };
+            
+            enum class OutputFileMode
+            {
+                Unspecified,
+                Overwrite,
+                Append,
+                Prepend,
+            };
+            
+            OutputFileMode  outputFileMode  { OutputFileMode::Unspecified };
             
             String  htmlType    {};
             String  mdType      {};
@@ -36,6 +45,9 @@ namespace render_csv
             String  mid         {};
             String  foot        {};
             String  css         {};
+
+            using Inputs =
+                std::vector<String>;
 
             Inputs  in          {};
         };

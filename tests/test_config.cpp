@@ -5,6 +5,18 @@
 TEST_SUITE("config")
 {
     
+    TEST_CASE("no args")
+    {
+        auto result = render_csv::readCommandLineArguments({});
+
+        CHECK(result.errorLog.empty());
+
+        auto const& data { result.configData };
+        CHECK(data.version == false);
+        CHECK(data.help    == false);
+        CHECK(data.fileGroups.empty()); 
+    }
+
     TEST_CASE("--version")
     {
         auto args = std::array 
