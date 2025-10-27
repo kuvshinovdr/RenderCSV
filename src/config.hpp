@@ -75,16 +75,18 @@ namespace render_csv
         ErrorLog    errorLog    {};
     };
 
+    using CstringSpan =
+        std::span<char const* const>;
+
     /// @brief Принять набор аргументов командной строки (нумерация с нуля, все аргументы проверяются).
-    [[nodiscard]] auto readCommandLineArguments(std::span<char const* const> args)
+    [[nodiscard]] auto readCommandLineArguments(CstringSpan args)
         -> CommandLineArguments;
 
     /// @brief Принять набор аргументов командной строки в стандартной POSIX-форме. 
-    [[nodiscard]] inline auto readCommandLineArguments(int argc, char* argv[])
+    [[nodiscard]] inline auto readCommandLineArguments(int argc, char const* const* argv)
         -> CommandLineArguments
     {
-        auto arg { static_cast<char const* const*>(argv) };
-        return readCommandLineArguments(std::span(arg + 1, arg + argc));
+        return readCommandLineArguments(CstringSpan(argv + 1, argv + argc));
     }
 
 }
