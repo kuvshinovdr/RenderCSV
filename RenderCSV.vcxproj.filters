@@ -65,10 +65,10 @@
     <ClInclude Include="src\table_data.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="src\table_reader.hpp">
+    <ClInclude Include="src\table_parser.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="src\table_writer.hpp">
+    <ClInclude Include="src\table_formatter.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="src\error_fwd.hpp">

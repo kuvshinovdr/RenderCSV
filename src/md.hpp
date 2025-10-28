@@ -3,19 +3,18 @@
 #ifndef RENDER_CSV_MD_HPP_INCLUDED
 #define RENDER_CSV_MD_HPP_INCLUDED
 
-#include "table_writer.hpp"
+#include "table_formatter.hpp"
 
 namespace render_csv
 {
 
-    class MarkdownWriter
-        : public TableWriter
+    enum class MarkdownKind
     {
-    public:
-
-        static auto test() noexcept
-            -> int;
+        GithubFlavored,
     };
+
+    [[nodiscard]] auto makeMarkdownFormatter(MarkdownKind kind)
+        -> TableFormatter;
 
 }
 

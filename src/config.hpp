@@ -39,7 +39,7 @@ namespace render_csv
             
             String  htmlType    {};
             String  mdType      {};
-            String  title       {};
+            String  caption     {};
             String  out         {};
             String  head        {};
             String  mid         {};

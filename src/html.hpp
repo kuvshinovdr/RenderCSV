@@ -3,19 +3,20 @@
 #ifndef RENDER_CSV_HTML_HPP_INCLUDED
 #define RENDER_CSV_HTML_HPP_INCLUDED
 
-#include "table_writer.hpp"
+#include "table_formatter.hpp"
 
 namespace render_csv
 {
 
-    class HtmlWriter
-        : public TableWriter
+    enum class HtmlKind
     {
-    public:
-
-        static auto test() noexcept
-            -> int;
+        Partial,
+        Full,
+        FullWithCss,
     };
+
+    [[nodiscard]] auto makeHtmlFormatter(HtmlKind kind, StringView css = {})
+        -> TableFormatter;
 
 }
 

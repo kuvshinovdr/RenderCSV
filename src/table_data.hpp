@@ -15,7 +15,7 @@ namespace render_csv
         using Headers   = Row;
         using Body      = std::vector<Row>;
 
-        String  title;
+        String  caption;
         Headers headers;
         Body    body;
     };

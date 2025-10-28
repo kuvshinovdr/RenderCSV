@@ -38,8 +38,8 @@
     <ClInclude Include="src\string_operations_fwd.hpp" />
     <ClInclude Include="src\string_to_file.hpp" />
     <ClInclude Include="src\table_data.hpp" />
-    <ClInclude Include="src\table_reader.hpp" />
-    <ClInclude Include="src\table_writer.hpp" />
+    <ClInclude Include="src\table_parser.hpp" />
+    <ClInclude Include="src\table_formatter.hpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
