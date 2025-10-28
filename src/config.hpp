@@ -79,14 +79,14 @@ namespace render_csv
         std::span<char const* const>;
 
     /// @brief Принять набор аргументов командной строки (нумерация с нуля, все аргументы проверяются).
-    [[nodiscard]] auto readCommandLineArguments(CstringSpan args)
+    [[nodiscard]] auto parseCommandLineArguments(CstringSpan args)
         -> CommandLineArguments;
 
     /// @brief Принять набор аргументов командной строки в стандартной POSIX-форме. 
-    [[nodiscard]] inline auto readCommandLineArguments(int argc, char const* const* argv)
+    [[nodiscard]] inline auto parseCommandLineArguments(int argc, char const* const* argv)
         -> CommandLineArguments
     {
-        return readCommandLineArguments(CstringSpan(argv + 1, argv + argc));
+        return parseCommandLineArguments(CstringSpan(argv + 1, argv + argc));
     }
 
 }

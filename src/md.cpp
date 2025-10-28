@@ -5,7 +5,7 @@ namespace render_csv
 {
 
     // https://github.github.com/gfm/
-    static auto formatMarkdownGfm(TableData const&)
+    [[nodiscard]] static auto formatMarkdownGfm(TableData const&)
         -> TableFormatterResult
     {
         // TODO

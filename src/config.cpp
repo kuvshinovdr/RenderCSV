@@ -1,7 +1,6 @@
 ﻿/// @file  config.cpp
 #include "config.hpp"
 #include "string_operations_fwd.hpp"
-#include <print>
 
 namespace render_csv
 {
@@ -64,7 +63,7 @@ namespace render_csv
     }
     
 
-    auto readCommandLineArguments(CstringSpan args)
+    auto parseCommandLineArguments(CstringSpan args)
         -> CommandLineArguments
     {
         CommandLineArguments result {};
@@ -75,21 +74,25 @@ namespace render_csv
         ConfigData::FileGroup current {};
         auto  many { false };
 
-        for (StringView arg: args) {
-            switch (argumentKind(arg)) {
+        for (auto i = 0zu; i < args.size(); ++i) {
+            auto current { StringView{args[i]} };
+            auto next    { StringView{} };
+            
+            if (i + 1 < args.size()) {
+                next = args[i + 1];
+            }
+
+            switch (argumentKind(current)) {
             case ArgumentKind::Full:
-                std::println("TODO: parse full argument {}\n", arg);
                 // TODO
                 break;
 
             case ArgumentKind::Brief:
-                std::println("TODO: parse brief argument {}\n", arg);
                 // TODO
                 break;
 
             default:
-                std::println("TODO: deal with unknown argument {}\n", arg);
-                // TODO
+                ;// TODO
             }
         }
 

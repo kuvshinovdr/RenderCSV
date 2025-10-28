@@ -27,7 +27,7 @@ try
 {
 	using namespace render_csv;
 
-	auto commandLineArguments = readCommandLineArguments(argc, argv);
+	auto commandLineArguments = parseCommandLineArguments(argc, argv);
 
 	if (commandLineArguments.configData.help) {
 		std::println("{}\n\n{}", ProgramInfo, ProgramHelp);

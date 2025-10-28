@@ -9,11 +9,15 @@
 namespace render_csv
 {
 
-    /// @brief Парсер CSV по стандарту RFC 4180 https://datatracker.ietf.org/doc/html/rfc4180
-    [[nodiscard]] auto parseCsv(StringView input)
-        -> TableParserResult;
+    enum class ExtractFirstRowAsHeaders
+    {
+        No,
+        Yes,
+    };
 
-    static_assert(std::is_convertible_v<decltype(parseCsv), TableParser>);
+    /// @brief Парсер CSV по стандарту RFC 4180 https://datatracker.ietf.org/doc/html/rfc4180
+    [[nodiscard]] auto makeCsvParser(ExtractFirstRowAsHeaders)
+        -> TableParser;
 
 }
 

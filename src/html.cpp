@@ -4,16 +4,17 @@
 namespace render_csv
 {
 
-    static auto formatHtmlFull(TableData const& data, StringView css = {})
+    [[nodiscard]] static auto formatHtmlPartial(TableData const& data)
         -> TableFormatterResult
     {
         // TODO
         return {};
     }
 
-    static auto formatHtmlPartial(TableData const& data)
+    [[nodiscard]] static auto formatHtmlFull(TableData const& data, StringView css = {})
         -> TableFormatterResult
     {
+        // Если css.empty(), то не внедряем CSS, иначе внедряем.
         // TODO
         return {};
     }
