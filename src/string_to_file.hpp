@@ -3,14 +3,14 @@
 #ifndef RENDER_CSV_STRING_TO_FILE_HPP_INCLUDED
 #define RENDER_CSV_STRING_TO_FILE_HPP_INCLUDED
 
+#include "error_fwd.hpp"
 #include "file_operations_fwd.hpp"
 #include "string_operations_fwd.hpp"
 
 namespace render_csv
 {
 
-    using StringToFileResult =
-        std::expected<void, ErrorCode>;
+    using StringToFileResult = Expected<void>;
 
     enum class FileUpdateMode
     {

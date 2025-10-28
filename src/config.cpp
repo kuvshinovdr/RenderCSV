@@ -15,17 +15,17 @@ namespace render_csv
         Full,   // на --
     };
 
-    /// @brief Функция проверяет префиксы -- и - у sv, классифицируя вид аргумента, удаляет эти префиксы. 
+    // Функция проверяет префиксы -- и - у параметра sv, классифицируя вид аргумента, и удаляет эти префиксы. 
     [[nodiscard]] inline auto argumentKind(StringView& sv)
         -> ArgumentKind
     {
-        if (sv.starts_with("--"sv)) {
-            sv.remove_prefix(2);
-            return ArgumentKind::Full;
-        }
-
         if (sv.starts_with('-')) {
             sv.remove_prefix(1);
+            if (sv.starts_with('-')) {
+                sv.remove_prefix(1);
+                return ArgumentKind::Full;
+            }
+
             return ArgumentKind::Brief;
         }
 
@@ -66,6 +66,7 @@ namespace render_csv
         -> CommandLineArguments
     {
         CommandLineArguments result {};
+
         auto& data { result.configData };
         auto& log  { result.errorLog   };
         
@@ -73,8 +74,21 @@ namespace render_csv
         auto  many { false };
 
         for (StringView arg: args) {
-            std::println("TODO: parse argument {}\n", arg);
-            // TODO
+            switch (argumentKind(arg)) {
+            case ArgumentKind::Full:
+                std::println("TODO: parse full argument {}\n", arg);
+                // TODO
+                break;
+
+            case ArgumentKind::Brief:
+                std::println("TODO: parse brief argument {}\n", arg);
+                // TODO
+                break;
+
+            default:
+                std::println("TODO: deal with unknown argument {}\n", arg);
+                // TODO
+            }
         }
 
         return result;

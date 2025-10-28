@@ -4,16 +4,12 @@
 #define RENDER_CSV_FILE_OPERATIONS_FWD_HPP_INCLUDED
 
 #include <filesystem>
-#include <expected>
 
 namespace render_csv
 {
 
     using FilePath =
         std::filesystem::path;
-
-    using ErrorCode =
-        std::error_code;
 
 }
 

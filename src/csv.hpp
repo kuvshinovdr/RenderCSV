@@ -8,13 +8,13 @@
 namespace render_csv
 {
 
+    /// @brief Парсер CSV по стандарту RFC 4180 https://datatracker.ietf.org/doc/html/rfc4180
     class CsvReader
         : public TableReader
     {
     public:
 
-        static auto test() noexcept
-            -> int;
+        
     };
 
 }
