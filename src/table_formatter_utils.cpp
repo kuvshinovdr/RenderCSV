@@ -1,5 +1,5 @@
 ﻿/// @file  table_formatter_utils.cpp
-
+#include <utf8.h>
 #include "table_formatter_utils.hpp"
 
 namespace render_csv
