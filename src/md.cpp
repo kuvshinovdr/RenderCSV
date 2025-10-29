@@ -1,5 +1,6 @@
 ﻿/// @file  md.cpp
 #include "md.hpp"
+#include "table_formatter_utils.hpp"
 
 namespace render_csv
 {

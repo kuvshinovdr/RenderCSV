@@ -12,13 +12,19 @@ namespace render_csv
     [[nodiscard]] auto simpleValidate(TableData const&)
         -> TableFormatterResult::Log;
 
-    using ColumnWidth = std::int32_t;
+    struct TableColumnWidths
+    {
+        using ColumnWidth = std::int32_t;
 
-    using RowColumnWidths =
-        std::vector<ColumnWidth>;
+        using OneRowColumnWidths =
+            std::vector<ColumnWidth>;
 
-    using TableColumnWidths =
-        std::vector<RowColumnWidths>;
+        using TableBodyColumnWidths =
+            std::vector<OneRowColumnWidths>;
+
+        OneRowColumnWidths    headers;
+        TableBodyColumnWidths body;
+    };
 
     /// @brief Вычислить ширины всех столбцов во всех строках в графических позициях UTF-8. 
     [[nodiscard]] auto computeColumnWidthsUtf8(TableData const&)

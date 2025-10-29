@@ -1,4 +1,6 @@
 ﻿/// @file  table_formatter_utils.cpp
+
+// Используется библиотека https://github.com/nemtrif/utfcpp
 #include <utf8.h>
 #include "table_formatter_utils.hpp"
 
@@ -13,6 +15,7 @@ namespace render_csv
         -> TableFormatterResult::Log
     {
         // TODO
+        // utf8::is_valid для проверки корректности UTF-8 данных
         return {};
     }
 
@@ -20,6 +23,7 @@ namespace render_csv
         -> TableColumnWidths
     {
         // TODO
+        // utf8::distance для вычисления количества кодовых позиций
         return {};
     }
 
