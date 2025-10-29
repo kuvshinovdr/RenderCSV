@@ -26,6 +26,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\md.cpp" />
     <ClCompile Include="src\string_to_file.cpp" />
+    <ClCompile Include="src\table_formatter_utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\config.hpp" />
@@ -38,6 +39,7 @@
     <ClInclude Include="src\string_operations_fwd.hpp" />
     <ClInclude Include="src\string_to_file.hpp" />
     <ClInclude Include="src\table_data.hpp" />
+    <ClInclude Include="src\table_formatter_utils.hpp" />
     <ClInclude Include="src\table_parser.hpp" />
     <ClInclude Include="src\table_formatter.hpp" />
   </ItemGroup>

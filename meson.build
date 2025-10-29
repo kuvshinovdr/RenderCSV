@@ -1,3 +1,4 @@
+# Project heading.
 project('RenderCSV', 'cpp',
         version: '1.0',
         default_options: [
@@ -7,9 +8,14 @@ project('RenderCSV', 'cpp',
         ]
 )
 
+# Dependencies.
+doctest_dep = dependency('doctest', fallback : ['doctest', 'doctest_dep'])
+utf8cpp_dep = dependency('utf8cpp', fallback : ['utf8cpp', 'utf8cpp_dep'])
+deps = [doctest_dep, utf8cpp_dep]
+
+# Enforce C++23 support and GCC ≥ 15 for std::println.
 cc = meson.get_compiler('cpp')
 
-# Enforce C++23 support and GCC ≥ 15 for std::println
 if cc.get_id() == 'gcc'
     if cc.version().version_compare('<15')
         error('GCC >= 15 is required for std::println (C++23)')
@@ -23,7 +29,7 @@ endif
 
 linkargs = []
 
-# Optional: link libstdc++exp only for GCC
+# Optional: link libstdc++exp only for GCC.
 if cc.get_id() == 'gcc'
     linkargs = ['-lstdc++exp']
 endif

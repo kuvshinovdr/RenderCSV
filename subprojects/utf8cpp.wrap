@@ -1,0 +1,5 @@
+[wrap-git]
+directory = utf8cpp
+url = https://github.com/nemtrif/utfcpp.git
+revision = master
+method = cmake

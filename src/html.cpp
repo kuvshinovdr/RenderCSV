@@ -4,6 +4,17 @@
 namespace render_csv
 {
 
+    [[nodiscard]] static auto htmlize(StringView input)
+        -> String
+    {
+        // Выполнить замену специальных символов:
+        // <  -->  &lt;
+        // >  -->  &gt;
+        // &  -->  &amp;
+        // \n -->  <BR>
+        return String{input};
+    }
+
     [[nodiscard]] static auto formatHtmlPartial(TableData const& data)
         -> TableFormatterResult
     {

@@ -3,6 +3,7 @@
 #ifndef RENDER_CSV_TABLE_FORMATTER_HPP_INCLUDED
 #define RENDER_CSV_TABLE_FORMATTER_HPP_INCLUDED
 
+#include <cstdint>
 #include <vector>
 #include <functional>
 #include "table_data.hpp"
@@ -12,8 +13,13 @@ namespace render_csv
 
     struct TableFormatterResult
     {
-        using LogEntry =
-            String;
+        struct LogEntry
+        {
+            using RowNumber = std::int32_t;
+
+            RowNumber   rowNumber       {-1};
+            String      description;
+        };
 
         using Log =
             std::vector<LogEntry>;
