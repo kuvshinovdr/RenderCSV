@@ -66,13 +66,13 @@ namespace render_csv
     auto parseCommandLineArguments(CstringSpan args)
         -> CommandLineArguments
     {
-        CommandLineArguments result {};
+        auto result { CommandLineArguments{} };
 
         auto& data { result.configData };
         auto& log  { result.errorLog   };
         
-        ConfigData::FileGroup current {};
-        auto  many { false };
+        auto current { ConfigData::FileGroup{} };
+        auto many    { false };
 
         for (auto i = 0zu; i < args.size(); ++i) {
             auto current { StringView{args[i]} };
