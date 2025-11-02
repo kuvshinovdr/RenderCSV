@@ -9,7 +9,7 @@
 #include <stdexcept>
 #include <print>
 
-using namespace std::literals;
+using namespace render_csv;
 
 constexpr auto ProgramInfo { "RenderCSV v.1.0 development"sv };
 
@@ -26,7 +26,7 @@ constexpr auto MessageProcessingErrors { "Errors occured while processing files:
 constexpr auto MessageStdException     { "Internal error: unhandled exception"sv };
 constexpr auto MessageUnknownException { "Internal error: unknown unhandled exception"sv };
  
-auto printErrorLog(render_csv::CommandLineArguments::ErrorLog const& errors)
+auto printErrorLog(CommandLineArguments::ErrorLog const& errors)
 	-> int
 {
 	std::println("{}", MessageErrorLogNotEmpty);
@@ -44,7 +44,7 @@ auto printErrorLog(render_csv::CommandLineArguments::ErrorLog const& errors)
 	return errorCount;
 }
 
-auto printErrorLog(render_csv::FileGroupResult::ErrorLog const& errors)
+auto printErrorLog(FileGroupResult::ErrorLog const& errors)
 	-> int
 {
 	std::println("{}", MessageProcessingErrors);
@@ -65,8 +65,6 @@ auto printErrorLog(render_csv::FileGroupResult::ErrorLog const& errors)
 int main(int argc, char* argv[])
 try
 {
-	using namespace render_csv;
-
 	auto  cliArguments { parseCommandLineArguments(argc, argv) };
 	auto& configData   { cliArguments.configData };
 	auto& errorLog     { cliArguments.errorLog   };

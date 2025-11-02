@@ -19,13 +19,14 @@ namespace render_csv
         std::unreachable();
     }
 
+    // TODO: может быть сделать свой класс категории ошибок
     auto stringToFile(FilePath const& filename, 
-        StringView      data, 
-        FileUpdateMode  mode
-    ) noexcept -> StringToFileResult
+                      StringView      data, 
+                      FileUpdateMode  mode
+                     ) noexcept -> StringToFileResult
     {
-        // TODO: свой класс категории ошибок
-        std::ofstream file(filename, toIosMode(mode));
+        auto file { std::ofstream(filename, toIosMode(mode)) };
+
         if (!file.is_open()) {
             return std::unexpected(std::make_error_code(std::errc::read_only_file_system));
         }

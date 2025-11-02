@@ -5,8 +5,6 @@
 namespace render_csv
 {
 
-    using namespace std::literals;
-
     constexpr auto FileLoadError { "File load error"sv };
     constexpr auto FileSaveError { "File save error"sv };
 

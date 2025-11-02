@@ -18,7 +18,8 @@ namespace render_csv
         }
 
         if (std::cmp_greater(fileSize, std::numeric_limits<std::size_t>::max())
-         || std::cmp_greater(fileSize, std::numeric_limits<std::streamsize>::max())) {
+         || std::cmp_greater(fileSize, std::numeric_limits<std::streamsize>::max())) 
+        {
             return std::unexpected(std::make_error_code(std::errc::file_too_large));
         }
 
@@ -30,12 +31,14 @@ namespace render_csv
             return std::unexpected(std::make_error_code(std::errc::not_enough_memory));
         }
 
-        std::ifstream file(filename, std::ios::binary);
+        auto file { std::ifstream(filename, std::ios::binary) };
+        
         if (!file.is_open()) {
             return std::unexpected(std::make_error_code(std::errc::no_such_file_or_directory));
         }
 
         file.read(result.data(), static_cast<std::streamsize>(dataSize));
+        
         if (std::cmp_not_equal(file.gcount(), dataSize)) {
             return std::unexpected(std::make_error_code(std::errc::interrupted));
         }

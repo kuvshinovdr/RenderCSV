@@ -5,8 +5,6 @@
 namespace render_csv
 {
 
-    using namespace std::literals;
-
     enum class ArgumentKind
     {
         None,   // не начинается на -
