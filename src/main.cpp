@@ -18,8 +18,13 @@ constexpr auto ProgramHelp
 CSV to HTML or Markdown conversion utility.
 )!"sv };
 
+constexpr auto ErrorMarker             { "ERROR"sv };
+constexpr auto WrittenMarker           { "WRITTEN"sv };
 constexpr auto MessagePassHelpArgument { "No valid arguments passed: use --help argument to get some info."sv };
 constexpr auto MessageErrorLogNotEmpty { "Supplied command line arguments contain errors:"sv };
+constexpr auto MessageProcessingErrors { "Errors occured while processing files:"sv };
+constexpr auto MessageStdException     { "Internal error: unhandled exception"sv };
+constexpr auto MessageUnknownException { "Internal error: unknown unhandled exception"sv };
  
 auto printErrorLog(render_csv::CommandLineArguments::ErrorLog const& errors)
 	-> int
@@ -28,12 +33,25 @@ auto printErrorLog(render_csv::CommandLineArguments::ErrorLog const& errors)
 	auto errorCount { int{} };
 
 	for (auto& entry : errors) {
-		std::println("ERROR({}): {:?} -- {}", errorCount++, entry.argument, entry.error);
+		std::println("{}({}): {:?} -- {}", ErrorMarker, errorCount++, entry.argument, entry.error);
 		if (!entry.details.empty()) {
 			std::println("\t-- {}", entry.details);
 		}
 
 		std::println();
+	}
+
+	return errorCount;
+}
+
+auto printErrorLog(render_csv::FileGroupResult::ErrorLog const& errors)
+	-> int
+{
+	std::println("{}", MessageProcessingErrors);
+	auto errorCount { int{} };
+
+	for (auto& entry : errors) {
+		std::println("{}({}): {}", ErrorMarker, errorCount++, entry);
 	}
 
 	return errorCount;
@@ -70,19 +88,27 @@ try
 		return 1;
 	}
 
-	for (auto& fg : configData.fileGroups) {
+	auto errorCount { int{} };
 
+	for (auto& fg : configData.fileGroups) {
+		auto  result { processFileGroup(fg) };
+		auto& errors { result.errorLog      };
+		if (!errors.empty()) {
+			errorCount += printErrorLog(errors);
+		} else {
+			std::println("...{} {}", fg.out, WrittenMarker);
+		}
 	}
 
-	return 0;
+	return errorCount;
 }
 catch (std::exception const& e)
 {
-	std::println("Internal error: unhandled exception ({})", e.what());
+	std::println("{} ({})", MessageStdException, e.what());
 	return 1;
 }
 catch (...)
 {
-	std::println("Internal error: unknown unhandled exception");
+	std::println("{}", MessageUnknownException);
 	return 1;
 }
