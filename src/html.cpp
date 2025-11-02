@@ -5,7 +5,7 @@
 namespace render_csv
 {
 
-    [[nodiscard]] static auto htmlize(StringView input)
+    auto detail::htmlize(StringView input)
         -> String
     {
         // Выполнить замену специальных символов:

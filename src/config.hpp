@@ -1,5 +1,5 @@
 ﻿/// @file  config.hpp
-/// @brief Класс, отвечающий за настройки программы.
+/// @brief Функционал, отвечающий за настройки программы.
 #ifndef RENDER_CSV_CONFIG_HPP_INCLUDED
 #define RENDER_CSV_CONFIG_HPP_INCLUDED
 

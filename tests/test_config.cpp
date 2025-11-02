@@ -7,7 +7,7 @@ TEST_SUITE("config")
     
     TEST_CASE("no args")
     {
-        auto result = render_csv::parseCommandLineArguments({});
+        auto result { render_csv::parseCommandLineArguments({}) };
 
         CHECK(result.errorLog.empty());
 
@@ -24,7 +24,7 @@ TEST_SUITE("config")
             "--version",
         };
 
-        auto result = render_csv::parseCommandLineArguments(args);
+        auto result { render_csv::parseCommandLineArguments(args) };
 
         CHECK(result.errorLog.empty());
         
@@ -41,7 +41,7 @@ TEST_SUITE("config")
             "--help",
         };
 
-        auto result = render_csv::parseCommandLineArguments(args);
+        auto result { render_csv::parseCommandLineArguments(args) };
 
         CHECK(result.errorLog.empty());
 

@@ -2,6 +2,7 @@
 tests = [
     'test_config.cpp',
     'test_csv.cpp',
+	'test_file_group_action.cpp',
     'test_md.cpp',
     'test_html.cpp',
 	'test_table_formatter_utils.cpp',

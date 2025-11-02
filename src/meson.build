@@ -2,6 +2,7 @@
 sources = [
     'config.cpp',
     'csv.cpp',
+	'file_group_action.cpp',
     'file_to_string.cpp',
     'html.cpp',
     'md.cpp',

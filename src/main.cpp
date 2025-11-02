@@ -4,8 +4,8 @@
 #include "csv.hpp"
 #include "html.hpp"
 #include "md.hpp"
+#include "file_group_action.hpp"
 
-#include <string_view>
 #include <stdexcept>
 #include <print>
 
@@ -18,6 +18,28 @@ constexpr auto ProgramHelp
 CSV to HTML or Markdown conversion utility.
 )!"sv };
 
+constexpr auto MessagePassHelpArgument { "No valid arguments passed: use --help argument to get some info."sv };
+constexpr auto MessageErrorLogNotEmpty { "Supplied command line arguments contain errors:"sv };
+ 
+auto printErrorLog(render_csv::CommandLineArguments::ErrorLog const& errors)
+	-> int
+{
+	std::println("{}", MessageErrorLogNotEmpty);
+	auto errorCount { int{} };
+
+	for (auto& entry : errors) {
+		std::println("ERROR({}): {:?} -- {}", errorCount++, entry.argument, entry.error);
+		if (!entry.details.empty()) {
+			std::println("\t-- {}", entry.details);
+		}
+
+		std::println();
+	}
+
+	return errorCount;
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 // Точка входа
 ///////////////////////////////////////////////////////////////////////////////
@@ -27,25 +49,30 @@ try
 {
 	using namespace render_csv;
 
-	auto commandLineArguments = parseCommandLineArguments(argc, argv);
+	auto  cliArguments { parseCommandLineArguments(argc, argv) };
+	auto& configData   { cliArguments.configData };
+	auto& errorLog     { cliArguments.errorLog   };
 
-	if (commandLineArguments.configData.help) {
-		std::println("{}\n\n{}", ProgramInfo, ProgramHelp);
-		return 0;
+	if (!errorLog.empty()) {
+		return printErrorLog(errorLog);
 	}
 
-	if (commandLineArguments.configData.version) {
-		std::println("{}\n", ProgramInfo);
-		return 0;
+	if (configData.help) {
+		std::println("{}\n\n{}", ProgramInfo, ProgramHelp);
+	}
+
+	if (configData.version) {
+		std::println("{}", ProgramInfo);
 	}
 	
-	if (!commandLineArguments.errorLog.empty()) {
-		std::println("TODO: report CLI errors\n");
-		// TODO
+	if (configData.fileGroups.empty() && !configData.help && !configData.version) {
+		std::println("{}", MessagePassHelpArgument);
+		return 1;
 	}
 
-	std::println("TODO: main operation\n");
-	// TODO
+	for (auto& fg : configData.fileGroups) {
+
+	}
 
 	return 0;
 }

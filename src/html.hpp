@@ -8,6 +8,14 @@
 namespace render_csv
 {
 
+    namespace detail
+    {
+        //  Для упрощения тестирования.
+        /// @brief Выполнить замену специальных символов (<, >, & и т.п.) на задающие их последовательности HTML.
+        [[nodiscard]] auto htmlize(StringView)
+            -> String;
+    }
+
     enum class HtmlKind
     {
         Partial,
