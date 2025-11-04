@@ -57,15 +57,13 @@ auto printErrorLog(FileGroupResult::ErrorLog const& errors)
 	return errorCount;
 }
 
-
-///////////////////////////////////////////////////////////////////////////////
-// Точка входа
-///////////////////////////////////////////////////////////////////////////////
-
-int main(int argc, char* argv[])
-try
+[[nodiscard]] bool hasNothingToDo(ConfigData const& configData)
 {
-	auto  cliArguments { parseCommandLineArguments(argc, argv) };
+	return configData.fileGroups.empty() && !configData.help && !configData.version;
+}
+
+[[nodiscard]] bool processCasesWithNoFileGroupOperations(CommandLineArguments const& cliArguments)
+{
 	auto& configData   { cliArguments.configData };
 	auto& errorLog     { cliArguments.errorLog   };
 
@@ -80,12 +78,18 @@ try
 	if (configData.version) {
 		std::println("{}", ProgramInfo);
 	}
-	
-	if (configData.fileGroups.empty() && !configData.help && !configData.version) {
+
+	if (hasNothingToDo(configData)) {
 		std::println("{}", MessagePassHelpArgument);
-		return 1;
+		return false;
 	}
 
+	return true;
+}
+
+auto processFileGroups(ConfigData const& configData)
+	-> int
+{
 	auto errorCount { int{} };
 
 	for (auto& fg : configData.fileGroups) {
@@ -99,6 +103,22 @@ try
 	}
 
 	return errorCount;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// Точка входа
+///////////////////////////////////////////////////////////////////////////////
+
+int main(int argc, char* argv[])
+try
+{
+	auto cliArguments { parseCommandLineArguments(argc, argv) };
+	
+	if (processCasesWithNoFileGroupOperations(cliArguments)) {
+		return processFileGroups(cliArguments.configData);
+	}
+
+	return 1;
 }
 catch (std::exception const& e)
 {

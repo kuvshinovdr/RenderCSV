@@ -1,15 +1,20 @@
 ﻿/// @file  file_group_action.cpp
 #include "file_group_action.hpp"
+#include "file_to_string.hpp"
+#include "string_to_file.hpp"
+#include "error_fwd.hpp"
 #include <format>
+
 
 namespace render_csv
 {
 
     constexpr auto FileLoadError { "File load error"sv };
     constexpr auto FileSaveError { "File save error"sv };
+    constexpr auto FileGroupFail { "Failed to process the file group"sv };
 
     auto detail::loadFileGroupData(ConfigData::FileGroup const& fg) noexcept
-        -> LoadFileGroupDataResult
+        -> FileGroupResult
     {
         // TODO
         return {};
@@ -21,38 +26,27 @@ namespace render_csv
         return std::format("{}: ({}) {}", intro, error.value(), error.message());
     }
 
-    auto detail::processFileGroupData(LoadedFileGroupData&& data)
-        -> FileGroupResult
+    // Антипаттерн завистливая функция?
+    bool detail::processFileGroupData(FileGroupResult& result)
     {
         // TODO
-        return {};
-    }
-
-    auto detail::saveFileGroupOutput(ConfigData::FileGroup const& fg, StringView output)
-        -> Expected<void>
-    {
-        // TODO
-        return {};
+        return false;
     }
 
     auto processFileGroup(ConfigData::FileGroup const& fg)
         -> FileGroupResult
     {
         using namespace detail;
-        auto loaded { loadFileGroupData(fg) };
+        auto  result { loadFileGroupData(fg) };
+        auto& errors { result.errorLog   };
         
-        if (!loaded) {
-            auto  result { FileGroupResult{} };
-            auto& errors { result.errorLog   };
-            errors.push_back(errorMessage(FileLoadError, loaded.error()));
+        if (!processFileGroupData(result)) {
+            errors.emplace_back(FileGroupFail);
             return result;
         }
-
-        auto  result { processFileGroupData(std::move(loaded.value())) };
-        auto  saved  { saveFileGroupOutput(fg, result.output)          };
-
+        
+        auto  saved  { stringToFile(fg.out, result.output )};
         if (!saved) {
-            auto& errors { result.errorLog };
             errors.push_back(errorMessage(FileSaveError, saved.error()));
         }
         

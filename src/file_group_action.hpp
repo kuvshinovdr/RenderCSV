@@ -21,18 +21,6 @@ namespace render_csv
         Inputs   inputs     {};
     };
 
-    namespace detail
-    {
-
-        using LoadFileGroupDataResult =
-            Expected<LoadedFileGroupData>;
-
-        /// @brief Загрузить данные всех файлов, упомянутых в файловой группе. 
-        [[nodiscard]] auto loadFileGroupData(ConfigData::FileGroup const&) noexcept
-            -> LoadFileGroupDataResult;
-
-    }
-
     struct FileGroupResult
     {
         using ErrorLog =
@@ -45,19 +33,18 @@ namespace render_csv
 
     namespace detail
     {
+        // В принципе, для внешнего API достаточно функции processFileGroup.
+        // Данные функции доступны для упрощения тестирования.
 
-        /// @brief Сформировать результат обработки файловой группы (вывод и ошибки). 
-        [[nodiscard]] auto processFileGroupData(LoadedFileGroupData&&)
+        /// @brief Загрузить данные всех файлов, упомянутых в файловой группе. 
+        [[nodiscard]] auto loadFileGroupData(ConfigData::FileGroup const&) noexcept
             -> FileGroupResult;
 
-        /// @brief Сохранить результат обработки файловой группы в файл вывода.
-        auto saveFileGroupOutput(ConfigData::FileGroup const& fg, StringView output)
-            -> Expected<void>;
+        /// @brief Сформировать результат обработки файловой группы на месте (вывод и ошибки).
+        /// @return истина, если ошибок не было; ложь, если были
+        bool processFileGroupData(FileGroupResult&);
 
     }
-
-    // В принципе, для внешнего API достаточно функции processFileGroup.
-    // Предыдущие функции открыты для упрощения тестирования.
 
     /// @brief Суммарное действие: загрузка файловой группы + обработка её данных + сохранение результата.
     auto processFileGroup(ConfigData::FileGroup const&)
