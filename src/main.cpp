@@ -8,6 +8,8 @@
 
 #include <stdexcept>
 #include <print>
+#include <ranges>
+#include <algorithm>
 
 using namespace render_csv;
 
@@ -26,35 +28,30 @@ constexpr auto MessageProcessingErrors { "Errors occured while processing files:
 constexpr auto MessageStdException     { "Internal error: unhandled exception"sv };
 constexpr auto MessageUnknownException { "Internal error: unknown unhandled exception"sv };
  
-auto printErrorLog(CommandLineArguments::ErrorLog const& errors)
-	-> int
+void printErrorLogEntry(CommandLineArguments::ErrorLogEntry const& entry, int errorNo)
 {
-	std::println("{}", MessageErrorLogNotEmpty);
-	auto errorCount { int{} };
-
-	for (auto& entry : errors) {
-		std::println("{}({}): {:?} -- {}", ErrorMarker, errorCount++, entry.argument, entry.error);
-		if (!entry.details.empty()) {
-			std::println("\t-- {}", entry.details);
-		}
-
-		std::println();
+	std::println("{}({}): {:?} -- {}", ErrorMarker, errorNo, entry.argument, entry.error);
+	
+	if (!entry.details.empty()) {
+		std::println("\t-- {}", entry.details);
 	}
 
-	return errorCount;
+	std::println();
 }
 
-auto printErrorLog(FileGroupResult::ErrorLog const& errors)
+void printErrorLogEntry(FileGroupResult::ErrorLogEntry const& entry, int errorNo)
+{
+	std::println("{}({}): {}", ErrorMarker, errorNo, entry);
+}
+
+auto printErrorLog(auto const& errorLog)
 	-> int
 {
-	std::println("{}", MessageProcessingErrors);
-	auto errorCount { int{} };
-
-	for (auto& entry : errors) {
-		std::println("{}({}): {}", ErrorMarker, errorCount++, entry);
+	for (auto&& [errorCount, entry] : std::views::enumerate(errorLog)) {
+		printErrorLogEntry(entry, errorCount);
 	}
 
-	return errorCount;
+	return static_cast<int>(errorLog.size());
 }
 
 [[nodiscard]] bool hasNothingToDo(ConfigData const& configData)
@@ -68,6 +65,7 @@ auto printErrorLog(FileGroupResult::ErrorLog const& errors)
 	auto& errorLog     { cliArguments.errorLog   };
 
 	if (!errorLog.empty()) {
+		std::println("{}", MessageErrorLogNotEmpty);
 		return printErrorLog(errorLog);
 	}
 
@@ -87,19 +85,27 @@ auto printErrorLog(FileGroupResult::ErrorLog const& errors)
 	return true;
 }
 
+auto processFileGroupWithOutput(ConfigData::FileGroup const& fg)
+	-> int
+{
+	auto result { processFileGroup(fg) };
+	
+	if (auto& errors { result.errorLog }; !errors.empty()) {
+		std::println("{}", MessageProcessingErrors);
+		return printErrorLog(errors);
+	}
+
+	std::println("...{} {}", fg.out, WrittenMarker);
+	return 0;
+}
+
 auto processFileGroups(ConfigData const& configData)
 	-> int
 {
 	auto errorCount { int{} };
 
 	for (auto& fg : configData.fileGroups) {
-		auto  result { processFileGroup(fg) };
-		auto& errors { result.errorLog      };
-		if (!errors.empty()) {
-			errorCount += printErrorLog(errors);
-		} else {
-			std::println("...{} {}", fg.out, WrittenMarker);
-		}
+		errorCount += processFileGroupWithOutput(fg);
 	}
 
 	return errorCount;

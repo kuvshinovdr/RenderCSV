@@ -26,6 +26,7 @@
     <ClCompile Include="src\html.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\md.cpp" />
+    <ClCompile Include="src\prepend_file.cpp" />
     <ClCompile Include="src\string_to_file.cpp" />
     <ClCompile Include="src\table_formatter_utils.cpp" />
   </ItemGroup>
@@ -34,10 +35,12 @@
     <ClInclude Include="src\csv.hpp" />
     <ClInclude Include="src\error_fwd.hpp" />
     <ClInclude Include="src\file_group_action.hpp" />
+    <ClInclude Include="src\file_group_action_details.hpp" />
     <ClInclude Include="src\file_operations_fwd.hpp" />
     <ClInclude Include="src\file_to_string.hpp" />
     <ClInclude Include="src\html.hpp" />
     <ClInclude Include="src\md.hpp" />
+    <ClInclude Include="src\prepend_file.hpp" />
     <ClInclude Include="src\string_operations_fwd.hpp" />
     <ClInclude Include="src\string_to_file.hpp" />
     <ClInclude Include="src\table_data.hpp" />

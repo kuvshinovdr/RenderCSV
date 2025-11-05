@@ -23,28 +23,16 @@ namespace render_csv
 
     struct FileGroupResult
     {
+        using ErrorLogEntry =
+            String;
+
         using ErrorLog =
-            std::vector<String>;
+            std::vector<ErrorLogEntry>;
 
         LoadedFileGroupData loadedFileGroupData {};
         String              output              {};
         ErrorLog            errorLog            {};
     };
-
-    namespace detail
-    {
-        // В принципе, для внешнего API достаточно функции processFileGroup.
-        // Данные функции доступны для упрощения тестирования.
-
-        /// @brief Загрузить данные всех файлов, упомянутых в файловой группе. 
-        [[nodiscard]] auto loadFileGroupData(ConfigData::FileGroup const&) noexcept
-            -> FileGroupResult;
-
-        /// @brief Сформировать результат обработки файловой группы на месте (вывод и ошибки).
-        /// @return истина, если ошибок не было; ложь, если были
-        bool processFileGroupData(FileGroupResult&);
-
-    }
 
     /// @brief Суммарное действие: загрузка файловой группы + обработка её данных + сохранение результата.
     auto processFileGroup(ConfigData::FileGroup const&)
