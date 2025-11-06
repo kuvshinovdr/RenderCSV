@@ -4,7 +4,6 @@
 #define RENDER_CSV_FILE_GROUP_ACTION_HPP_INCLUDED
 
 #include "config.hpp"
-#include "error_fwd.hpp"
 
 namespace render_csv
 {

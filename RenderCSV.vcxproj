@@ -22,6 +22,7 @@
     <ClCompile Include="src\config.cpp" />
     <ClCompile Include="src\csv.cpp" />
     <ClCompile Include="src\file_group_action.cpp" />
+    <ClCompile Include="src\file_group_action_details.cpp" />
     <ClCompile Include="src\file_to_string.cpp" />
     <ClCompile Include="src\html.cpp" />
     <ClCompile Include="src\main.cpp" />

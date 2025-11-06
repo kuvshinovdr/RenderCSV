@@ -5,9 +5,14 @@
 
 #include "file_group_action.hpp"
 #include "file_operations_fwd.hpp"
+#include "error_fwd.hpp"
 
 namespace render_csv::detail
 {
+
+    /// @brief Сформировать строковое представление ошибки.
+    [[nodiscard]] auto errorMessage(StringView intro, ErrorCode error)
+        -> String;
 
     /// @brief Загрузить данные всех файлов, упомянутых в файловой группе. 
     [[nodiscard]] auto loadFileGroupData(ConfigData::FileGroup const&) noexcept
@@ -18,10 +23,11 @@ namespace render_csv::detail
     bool processFileGroupData(FileGroupResult&);
 
     /// @brief Сохранить файл в заданном режиме (по сути, реализует prepend, поскольку остальные режимы поддерживаются функцией stringToFile).
-    auto saveFileGroupOutput(FilePath const&                       filePath,
-                             StringView                            output,
-                             ConfigData::FileGroup::OutputFileMode mode
-                            ) noexcept
+    auto saveFileGroupOutput(
+        FilePath const&                       filePath,
+        StringView                            output,
+        ConfigData::FileGroup::OutputFileMode mode
+        ) noexcept
         -> Expected<void>;
 
 }
