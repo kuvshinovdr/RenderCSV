@@ -32,10 +32,11 @@ namespace render_csv
     }
 
     // TODO: может быть сделать свой класс категории ошибок
-    auto stringToFile(FilePath const& filename, 
-                      StringView      data, 
-                      FileUpdateMode  mode
-                     ) noexcept 
+    auto stringToFile(
+        FilePath const& filename, 
+        StringView      data, 
+        FileUpdateMode  mode
+        ) noexcept 
         -> StringToFileResult
     {
         if (!fileAvailableForWrite(filename, mode)) {
