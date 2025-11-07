@@ -16,7 +16,7 @@ namespace render_csv
         auto  result { loadFileGroupData(fg) };
         auto& errors { result.errorLog   };
         
-        if (!processFileGroupData(result)) {
+        if (!processFileGroupData(fg, result)) {
             errors.emplace_back(FileGroupFail);
             return result;
         }

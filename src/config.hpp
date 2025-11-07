@@ -49,7 +49,7 @@ namespace render_csv
             using Inputs =
                 std::vector<String>;
 
-            Inputs  in          {};
+            Inputs  inputs      {};
         };
 
         using FileGroups =

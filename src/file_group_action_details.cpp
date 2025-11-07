@@ -23,10 +23,18 @@ namespace render_csv::detail
         return {};
     }
 
-    // Антипаттерн завистливая функция?
-    bool processFileGroupData(FileGroupResult& result)
+    // "Ядро" программы: готовы входы (в виде строк), сформировать выход.
+    bool processFileGroupData(ConfigData::FileGroup const& fg, FileGroupResult& result)
     {
-        // TODO
+        // TODO:
+        // 1. Создать нужный парсер.
+        // 2. Создать нужный форматтер.
+        // 3. Записать в result.output содержимое head.
+        // 4. Для каждого input из inputs выполнить парсер и для его результата -- форматтер,
+        //    добавить результат в output (перед ним -- mid, если это не первый input).
+        // 5. Добавить в output содержимое foot.
+        // 
+        // Если в процессе возникают ошибки: записываем их в result.errorLog с помощью errorMessage. 
         return false;
     }
 

@@ -20,7 +20,7 @@ namespace render_csv::detail
 
     /// @brief Сформировать результат обработки файловой группы на месте (вывод и ошибки).
     /// @return истина, если ошибок не было; ложь, если были
-    bool processFileGroupData(FileGroupResult&);
+    bool processFileGroupData(ConfigData::FileGroup const&, FileGroupResult&);
 
     /// @brief Сохранить файл в заданном режиме (по сути, реализует prepend, поскольку остальные режимы поддерживаются функцией stringToFile).
     auto saveFileGroupOutput(
