@@ -16,6 +16,7 @@ namespace render_csv
         String   head       {};
         String   mid        {};
         String   foot       {};
+        String   css        {};
 
         Inputs   inputs     {};
     };
