@@ -26,9 +26,39 @@ namespace render_csv
     [[nodiscard]] static auto formatHtmlFull(TableData const& data, StringView css = {})
         -> TableFormatterResult
     {
-        // Если css.empty(), то не внедряем CSS, иначе внедряем.
-        // TODO
-        return {};
+        TableFormatterResult result;
+
+        // Получение html таблицы
+        auto partialResult = formatHtmlPartial(data);
+
+        // Строка со структурой документа
+        String fullHtml;
+        fullHtml += "<!DOCTYPE html>";
+        fullHtml += "<meta charset=\"UTF-8\">";
+        
+         fullHtml += "<html>";
+        fullHtml += "<head>";
+
+        if (!data.caption.empty()) {
+        fullHtml += "<title>" + detail::htmlize(data.caption) + "</title>"; 
+        }
+
+        if (!css.empty()) {
+        fullHtml += "<style>";
+        fullHtml += String(css);
+        fullHtml += "</style>";
+        }
+
+        fullHtml += "</head>";
+        fullHtml += "<body>";
+        
+        fullHtml += partialResult.output;
+        
+        fullHtml += "</body>";
+        fullHtml += "</html>";
+        
+        result.output = std::move(fullHtml);
+        return result;
     }
 
     auto makeHtmlFormatter(HtmlKind kind, StringView css)
