@@ -38,10 +38,11 @@ namespace render_csv::detail
         return false;
     }
 
-    auto saveFileGroupOutput(FilePath const&                       filePath,
+    auto saveFileGroupOutput(
+        FilePath const&                       filePath,
         StringView                            output,
         ConfigData::FileGroup::OutputFileMode mode
-    ) noexcept
+        ) noexcept
         -> Expected<void>
     {
         auto stringToFileMode { FileUpdateMode::Rewrite };

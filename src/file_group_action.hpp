@@ -8,6 +8,7 @@
 namespace render_csv
 {
 
+    /// @brief Загруженные в память входные файлы (здесь уже в виде строк).
     struct LoadedFileGroupData
     {
         using Inputs =
@@ -21,6 +22,7 @@ namespace render_csv
         Inputs   inputs     {};
     };
 
+    /// @brief Результат обработки FileGroup: загруженные файлы, строка результата (output) и протокол ошибок.
     struct FileGroupResult
     {
         using ErrorLogEntry =

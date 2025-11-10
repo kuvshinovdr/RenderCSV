@@ -9,6 +9,7 @@
 namespace render_csv
 {
 
+    /// @brief Указать, следует ли извлекать первую строчку CSV в качестве заголовков колонок таблицы.
     enum class ExtractFirstRowAsHeaders
     {
         No,

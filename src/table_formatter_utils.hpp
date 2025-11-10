@@ -12,6 +12,7 @@ namespace render_csv
     [[nodiscard]] auto simpleValidate(TableData const&)
         -> TableFormatterResult::Log;
 
+    /// @brief Данные о ширине колонок в знакоместах.
     struct TableColumnWidths
     {
         using ColumnWidth = std::int32_t;

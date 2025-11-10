@@ -12,6 +12,7 @@ namespace render_csv
 
     using StringToFileResult = Expected<void>;
 
+    /// @brief Что делать, если файл, который мы хотим записать, уже существует.
     enum class FileUpdateMode
     {
         OnlyNew, ///< ошибка, если файл уже есть
