@@ -8,19 +8,43 @@ namespace render_csv
     auto detail::htmlize(StringView input)
         -> String
     {
-        // Выполнить замену специальных символов:
-        // <  -->  &lt;
-        // >  -->  &gt;
-        // &  -->  &amp;
-        // \n -->  <BR>
-        return String{input};
+        String result;
+        for (char c : input) {
+            switch (c) {
+            case '<': result += "&lt;"; break;
+            case '>': result += "&gt;"; break;
+            case '&': result += "&amp;"; break;
+            case '\n': result += "<BR>"; break;
+            default: result += c; break;
+            }
+        }
+        return result;
     }
 
     [[nodiscard]] static auto formatHtmlPartial(TableData const& data)
         -> TableFormatterResult
     {
-        // TODO
-        return {};
+        String result;
+        
+        // Начинаем таблицу
+        result += "<table>\n";
+        
+        // Добавляем строки таблицы
+        for (auto const& row : data.rows) {
+            result += "  <tr>\n";
+            
+            // Добавляем ячейки в строку
+            for (auto const& cell : row.cells) {
+                result += "    <td>" + detail::htmlize(cell) + "</td>\n";
+            }
+            
+            result += "  </tr>\n";
+        }
+        
+        // Заканчиваем таблицу
+        result += "</table>";
+        
+        return result;
     }
 
     [[nodiscard]] static auto formatHtmlFull(TableData const& data, StringView css = {})
