@@ -22,9 +22,35 @@ namespace render_csv
     auto computeColumnWidthsUtf8(TableData const& data)
         -> TableColumnWidths
     {
-        // TODO
-        // utf8::distance для вычисления количества кодовых позиций
-        return {};
+        TableColumnWidths result;
+
+        // --- Headers ---
+        for (auto const& cell : data.headers)
+        {
+            auto width = static_cast<std::int32_t>(
+                utf8::distance(cell.begin(), cell.end())
+                );
+            result.headers.push_back(width);
+        }
+
+        // --- Body ---
+        for (auto const& row : data.body)
+        {
+            TableColumnWidths::OneRowColumnWidths rowWidths;
+            rowWidths.reserve(row.size());
+
+            for (auto const& cell : row)
+            {
+                auto width = static_cast<std::int32_t>(
+                    utf8::distance(cell.begin(), cell.end())
+                    );
+                rowWidths.push_back(width);
+            }
+
+            result.body.push_back(std::move(rowWidths));
+        }
+
+        return result;
     }
 
 }
