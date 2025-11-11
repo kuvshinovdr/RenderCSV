@@ -102,7 +102,7 @@ namespace render_csv
                     current_group.mdType = "gfm";
 
                     auto eqPos = current.find('=');
-                    if (eqPos != StringView.npos){
+                    if (eqPos != ""sv.npos){
                         auto value = current.substr(eqPos + 1);
                         if (!value.empty()){
                             current_group.mdType = String(value);
@@ -117,7 +117,7 @@ namespace render_csv
                     current_group.htmlType = "full";
                     
                     auto eqPos = current.find('=');
-                    if (eqPos != StringView.npos){
+                    if (eqPos != ""sv.npos){
                         auto value = current.substr(eqPos + 1);
                         if (value == "part"sv) {
                             current_group.htmlType = "part";
@@ -126,7 +126,7 @@ namespace render_csv
                         } else if (value == "full-styled"sv) {
                             current_group.htmlType = "full-styled";
                         } else {
-                            log.push_back({current, "Missing or incorrect value for --html"sv});
+                            current_group.htmlType = "full";
                         }
                     }
 
@@ -169,17 +169,8 @@ namespace render_csv
                 {
 
                     if (!next.empty()){
-                        current_group.in.push_back(next);
-                        i++;
-
-                        if (!many){
-
-                            data.fileGroups.push_back(current_group);
-                            current_group = ConfigData::FileGroup{};
-                            current_group.outputFormat = data.fileGroups.back().outputFormat;
-                            current_group.outputFileMode = data.fileGroups.back().outputFileMode;
-
-                        }
+                        current_group.in.push_back(String(next));
+                        ++i;
                     }
                     else
                     {
@@ -207,7 +198,6 @@ namespace render_csv
                     {
                         log.push_back({current, "Missing value for --out"sv});
                     }
-
                 }
                 else if(current == full::Header)
                 {
@@ -268,7 +258,7 @@ namespace render_csv
                 break;
 
             case ArgumentKind::Brief:
-                for (auto j = 0zu; i < current.size(); ++j){
+                for (auto j = 0zu; j < current.size(); ++j){
                     switch (current[j]){
                     case brief::Caption:
                         if (!next.empty()){
@@ -283,17 +273,8 @@ namespace render_csv
                         
                     case brief::In:
                         if (!next.empty()){
-                            current_group.in.push_back(next);
-                            i++;
-
-                            if (!many){
-
-                                data.fileGroups.push_back(current_group);
-                                current_group = ConfigData::FileGroup{};
-                                current_group.outputFormat = data.fileGroups.back().outputFormat;
-                                current_group.outputFileMode = data.fileGroups.back().outputFileMode;
-
-                            }
+                            current_group.in.push_back(String(next));
+                            ++i;
                         }
                         else
                         {
@@ -361,9 +342,9 @@ namespace render_csv
                 break;
 
             default:
-                current_group.in.push_back(current);
+                current_group.in.push_back(String(current));
                 if (!many){
-                    data.fileGroups.pop_back(current_group);
+                    data.fileGroups.push_back(current_group);
                     current_group = ConfigData::FileGroup{};
                     if (!data.fileGroups.empty()) {
                         current_group.outputFormat = data.fileGroups.back().outputFormat;

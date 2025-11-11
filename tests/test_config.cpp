@@ -50,193 +50,6 @@ TEST_SUITE("config")
         CHECK(data.help    == true);
         CHECK(data.fileGroups.empty());
     }
-    TEST_CASE("--md")
-    {
-        auto args = std::array 
-        {
-            "--md"
-        };
-
-        auto result = render_csv::parseCommandLineArguments(args);
-
-        CHECK(result.errorLog.empty());
-
-        auto const& data { result.configData };
-        CHECK(data.version == false);
-        CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].outputFormat == ConfigData::FileGroup::OutputFormat::Markdown);
-        CHECK(data.fileGroups[0].mdType == "gfm");
-    }
-	TEST_CASE("--md=")
-    {
-        auto args = std::array 
-        {
-            "--md="
-        };
-
-        auto result = render_csv::parseCommandLineArguments(args);
-
-        CHECK(result.errorLog.empty());
-
-        auto const& data { result.configData };
-        CHECK(data.version == false);
-        CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].outputFormat == ConfigData::FileGroup::OutputFormat::Markdown);
-        CHECK(data.fileGroups[0].mdType == "gfm");
-    }
-    TEST_CASE("--md=gfm")
-    {
-        auto args = std::array 
-        {
-            "--md=gfm"
-        };
-
-        auto result = render_csv::parseCommandLineArguments(args);
-
-        CHECK(result.errorLog.empty());
-
-        auto const& data { result.configData };
-        CHECK(data.version == false);
-        CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].outputFormat == ConfigData::FileGroup::OutputFormat::Markdown);
-        CHECK(data.fileGroups[0].mdType == "gfm");
-    }
-    TEST_CASE("--md=asd")
-    {
-        auto args = std::array 
-        {
-            "--md=asd"
-        };
-
-        auto result = render_csv::parseCommandLineArguments(args);
-
-        CHECK(result.errorLog.empty());
-
-        auto const& data { result.configData };
-        CHECK(data.version == false);
-        CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].outputFormat == ConfigData::FileGroup::OutputFormat::Markdown);
-        CHECK(data.fileGroups[0].mdType == "asd");
-    }
-    TEST_CASE("--html")
-    {
-        auto args = std::array 
-        {
-            "--html"
-        };
-
-        auto result = render_csv::parseCommandLineArguments(args);
-
-        CHECK(result.errorLog.empty());
-
-        auto const& data { result.configData };
-        CHECK(data.version == false);
-        CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].outputFormat == ConfigData::FileGroup::OutputFormat::Html);
-        CHECK(data.fileGroups[0].htmlType == "full");
-    }
-    TEST_CASE("--html=")
-    {
-        auto args = std::array 
-        {
-            "--html="
-        };
-
-        auto result = render_csv::parseCommandLineArguments(args);
-
-        CHECK(result.errorLog.empty());
-
-        auto const& data { result.configData };
-        CHECK(data.version == false);
-        CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].outputFormat == ConfigData::FileGroup::OutputFormat::Html);
-        CHECK(data.fileGroups[0].htmlType == "full");
-    }
-    TEST_CASE("--html=part")
-    {
-        auto args = std::array 
-        {
-            "--html=part"
-        };
-
-        auto result = render_csv::parseCommandLineArguments(args);
-
-        CHECK(result.errorLog.empty());
-
-        auto const& data { result.configData };
-        CHECK(data.version == false);
-        CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].outputFormat == ConfigData::FileGroup::OutputFormat::Html);
-        CHECK(data.fileGroups[0].htmlType == "part");
-    }
-    TEST_CASE("--html=full")
-    {
-        auto args = std::array 
-        {
-            "--html=full"
-        };
-
-        auto result = render_csv::parseCommandLineArguments(args);
-
-        CHECK(result.errorLog.empty());
-
-        auto const& data { result.configData };
-        CHECK(data.version == false);
-        CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].outputFormat == ConfigData::FileGroup::OutputFormat::Html);
-        CHECK(data.fileGroups[0].htmlType == "full");
-    }
-    TEST_CASE("--html=full-stiled")
-    {
-        auto args = std::array 
-        {
-            "--html=full-stiled"
-        };
-
-        auto result = render_csv::parseCommandLineArguments(args);
-
-        CHECK(result.errorLog.empty());
-
-        auto const& data { result.configData };
-        CHECK(data.version == false);
-        CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].outputFormat == ConfigData::FileGroup::OutputFormat::Html);
-        CHECK(data.fileGroups[0].htmlType == "full-stiled");
-    }
-    TEST_CASE("--caption")
-    {
-        auto args = std::array 
-        {
-            "--caption",
-            "test_captionname"
-        };
-
-        auto result = render_csv::parseCommandLineArguments(args);
-
-        CHECK(result.errorLog.empty());
-
-        auto const& data { result.configData };
-        CHECK(data.version == false);
-        CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].caption == "test_captionname");
-    }
-    TEST_CASE("-c")
-    {
-        auto args = std::array 
-        {
-            "-c",
-            "test_captionname"
-        };
-
-        auto result = render_csv::parseCommandLineArguments(args);
-
-        CHECK(result.errorLog.empty());
-
-        auto const& data { result.configData };
-        CHECK(data.version == false);
-        CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].caption == "test_captionname");
-    }
     TEST_CASE("--in")
     {
         auto args = std::array 
@@ -271,6 +84,253 @@ TEST_SUITE("config")
         CHECK(data.help    == false);
         CHECK(data.fileGroups[0].in[0] == "test_filename");
     }
+    TEST_CASE("--md")
+    {
+        auto args = std::array 
+        {
+            "--md",
+            "--in",
+            "test_filename_1",
+            "--out",
+            "test_filename_2"
+        };
+
+        auto result = render_csv::parseCommandLineArguments(args);
+
+        CHECK(result.errorLog.empty());
+
+        auto const& data { result.configData };
+        CHECK(data.version == false);
+        CHECK(data.help    == false);
+        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].out == "test_filename_2");
+        CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Markdown);
+        CHECK(data.fileGroups[0].mdType == "gfm");
+    }
+    TEST_CASE("--md=")
+    {
+        auto args = std::array 
+        {
+            "--md=",
+            "--in",
+            "test_filename_1",
+            "--out",
+            "test_filename_2"
+        };
+
+        auto result = render_csv::parseCommandLineArguments(args);
+
+        CHECK(result.errorLog.empty());
+
+        auto const& data { result.configData };
+        CHECK(data.version == false);
+        CHECK(data.help    == false);
+        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].out == "test_filename_2");
+        CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Markdown);
+        CHECK(data.fileGroups[0].mdType == "gfm");
+    }
+    TEST_CASE("--md=gfm")
+    {
+        auto args = std::array 
+        {
+            "--md=gfm",
+            "--in",
+            "test_filename_1",
+            "--out",
+            "test_filename_2"
+        };
+
+        auto result = render_csv::parseCommandLineArguments(args);
+
+        CHECK(result.errorLog.empty());
+
+        auto const& data { result.configData };
+        CHECK(data.version == false);
+        CHECK(data.help    == false);
+        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].out == "test_filename_2");
+        CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Markdown);
+        CHECK(data.fileGroups[0].mdType == "gfm");
+    }
+    TEST_CASE("--md=asd")
+    {
+        auto args = std::array 
+        {
+            "--md=asd",
+            "--in",
+            "test_filename_1",
+            "--out",
+            "test_filename_2"
+        };
+
+        auto result = render_csv::parseCommandLineArguments(args);
+
+        CHECK(result.errorLog.empty());
+
+        auto const& data { result.configData };
+        CHECK(data.version == false);
+        CHECK(data.help    == false);
+        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].out == "test_filename_2");
+        CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Markdown);
+        CHECK(data.fileGroups[0].mdType == "asd");
+    }
+    TEST_CASE("--html")
+    {
+        auto args = std::array 
+        {
+            "--html",
+            "--in",
+            "test_filename_1",
+            "--out",
+            "test_filename_2"
+        };
+
+        auto result = render_csv::parseCommandLineArguments(args);
+
+        CHECK(result.errorLog.empty());
+
+        auto const& data { result.configData };
+        CHECK(data.version == false);
+        CHECK(data.help    == false);
+        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].out == "test_filename_2");
+        CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Html);
+        CHECK(data.fileGroups[0].htmlType == "full");
+    }
+    TEST_CASE("--html=")
+    {
+        auto args = std::array 
+        {
+            "--html=",
+            "--in",
+            "test_filename_1",
+            "--out",
+            "test_filename_2"
+        };
+
+        auto result = render_csv::parseCommandLineArguments(args);
+
+        CHECK(result.errorLog.empty());
+
+        auto const& data { result.configData };
+        CHECK(data.version == false);
+        CHECK(data.help    == false);
+        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].out == "test_filename_2");
+        CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Html);
+        CHECK(data.fileGroups[0].htmlType == "full");
+    }
+    TEST_CASE("--html=part")
+    {
+        auto args = std::array 
+        {
+            "--html=part",
+            "--in",
+            "test_filename_1",
+            "--out",
+            "test_filename_2"
+        };
+
+        auto result = render_csv::parseCommandLineArguments(args);
+
+        CHECK(result.errorLog.empty());
+
+        auto const& data { result.configData };
+        CHECK(data.version == false);
+        CHECK(data.help    == false);
+        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].out == "test_filename_2");
+        CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Html);
+        CHECK(data.fileGroups[0].htmlType == "part");
+    }
+    TEST_CASE("--html=full")
+    {
+        auto args = std::array 
+        {
+            "--html=full",
+            "--in",
+            "test_filename_1",
+            "--out",
+            "test_filename_2"
+        };
+
+        auto result = render_csv::parseCommandLineArguments(args);
+
+        CHECK(result.errorLog.empty());
+
+        auto const& data { result.configData };
+        CHECK(data.version == false);
+        CHECK(data.help    == false);
+        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].out == "test_filename_2");
+        CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Html);
+        CHECK(data.fileGroups[0].htmlType == "full");
+    }
+    TEST_CASE("--html=full-styled")
+    {
+        auto args = std::array 
+        {
+            "--html=full-styled",
+            "--in",
+            "test_filename_1",
+            "--out",
+            "test_filename_2"
+        };
+
+        auto result = render_csv::parseCommandLineArguments(args);
+
+        CHECK(result.errorLog.empty());
+
+        auto const& data { result.configData };
+        CHECK(data.version == false);
+        CHECK(data.help    == false);
+        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].out == "test_filename_2");
+        CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Html);
+        CHECK(data.fileGroups[0].htmlType == "full-styled");
+    }
+    TEST_CASE("--caption")
+    {
+        auto args = std::array 
+        {
+            "--in",
+            "test_filename",
+            "--caption",
+            "test_captionname"
+        };
+
+        auto result = render_csv::parseCommandLineArguments(args);
+
+        CHECK(result.errorLog.empty());
+
+        auto const& data { result.configData };
+        CHECK(data.version == false);
+        CHECK(data.help    == false);
+        CHECK(data.fileGroups[0].in[0] == "test_filename");
+        CHECK(data.fileGroups[0].caption == "test_captionname");
+    }
+    TEST_CASE("-c")
+    {
+        auto args = std::array 
+        {
+            "--in",
+            "test_filename",
+            "-c",
+            "test_captionname"
+        };
+
+        auto result = render_csv::parseCommandLineArguments(args);
+
+        CHECK(result.errorLog.empty());
+
+        auto const& data { result.configData };
+        CHECK(data.version == false);
+        CHECK(data.help    == false);
+        CHECK(data.fileGroups[0].in[0] == "test_filename");
+        CHECK(data.fileGroups[0].caption == "test_captionname");
+    }
     TEST_CASE("--many")
     {
         auto args = std::array 
@@ -295,6 +355,7 @@ TEST_SUITE("config")
     {
         auto args = std::array 
         {
+            "--md",
             "--in",
             "test_filename_1",
             "--out",
@@ -310,11 +371,14 @@ TEST_SUITE("config")
         CHECK(data.help    == false);
         CHECK(data.fileGroups[0].in[0] == "test_filename_1");
         CHECK(data.fileGroups[0].out == "test_filename_2");
+        CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Markdown);
+        CHECK(data.fileGroups[0].mdType == "gfm");
     }
     TEST_CASE("-o")
     {
         auto args = std::array 
         {
+            "--html",
             "--in",
             "test_filename_1",
             "-o",
@@ -330,14 +394,16 @@ TEST_SUITE("config")
         CHECK(data.help    == false);
         CHECK(data.fileGroups[0].in[0] == "test_filename_1");
         CHECK(data.fileGroups[0].out == "test_filename_2");
+        CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Html);
+        CHECK(data.fileGroups[0].htmlType == "full");
     }
-    TEST_CASE("--header")
+    TEST_CASE("--head")
     {
         auto args = std::array 
         {
             "--in",
             "test_filename_1",
-            "--header",
+            "--head",
             "test_headername"
             
         };
