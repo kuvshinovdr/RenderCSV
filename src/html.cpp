@@ -8,12 +8,22 @@ namespace render_csv
     [[nodiscard]] static auto htmlize(StringView input)
         -> String
     {
-        // Выполнить замену специальных символов:
-        // <  -->  &lt;
-        // >  -->  &gt;
-        // &  -->  &amp;
-        // \n -->  <BR>
-        return String{input};
+        String result;
+        result.reserve(input.size());
+
+        for (char c : input)
+        {
+            switch (c)
+            {
+            case '<':  result += "&lt;";   break;
+            case '>':  result += "&gt;";   break;
+            case '&':  result += "&amp;";  break;
+            case '\n': result += "<BR>";   break;
+            default:   result += c;        break;
+            }
+        }
+
+    return result;
     }
 
     [[nodiscard]] static auto formatHtmlPartial(TableData const& data)
