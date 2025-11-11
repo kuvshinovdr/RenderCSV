@@ -5,8 +5,6 @@
 namespace render_csv
 {
 
-    using namespace std::literals;
-
     enum class ArgumentKind
     {
         None,   // не начинается на -
@@ -18,17 +16,17 @@ namespace render_csv
     [[nodiscard]] inline auto argumentKind(StringView& sv)
         -> ArgumentKind
     {
-        if (sv.starts_with('-')) {
-            sv.remove_prefix(1);
-            if (sv.starts_with('-')) {
-                sv.remove_prefix(1);
-                return ArgumentKind::Full;
-            }
+        if (!sv.starts_with('-')) {
+            return ArgumentKind::None;
+        }
 
+        sv.remove_prefix(1);
+        if (!sv.starts_with('-')) {
             return ArgumentKind::Brief;
         }
 
-        return ArgumentKind::None;
+        sv.remove_prefix(1);
+        return ArgumentKind::Full;
     }
 
     namespace full
@@ -66,17 +64,17 @@ namespace render_csv
     auto parseCommandLineArguments(CstringSpan args)
         -> CommandLineArguments
     {
-        auto result { CommandLineArguments{} };
+        auto  result  { CommandLineArguments{} };
 
-        auto& data { result.configData };
-        auto& log  { result.errorLog   };
+        auto& data    { result.configData };
+        auto& log     { result.errorLog   };
         
         auto current_group { ConfigData::FileGroup{} };
         auto many    { false };
 
         for (auto i = 0zu; i < args.size(); ++i) {
             auto current { StringView{args[i]} };
-            auto next    { StringView{} };
+            auto next    { StringView{}        };
             
             if (i + 1 < args.size()) {
                 next = args[i + 1];

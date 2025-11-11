@@ -11,6 +11,7 @@
 namespace render_csv
 {
 
+    /// @brief Результат конвертирования таблицы в некоторый текстовый формат: протокол предупреждений и вывод (output).
     struct TableFormatterResult
     {
         struct LogEntry
