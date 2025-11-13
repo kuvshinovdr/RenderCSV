@@ -30,19 +30,20 @@ namespace render_csv
 
         // Получение html таблицы
         auto partialResult = formatHtmlPartial(data);
-
+        result.warnings = partialResult.warning;
+        
         // Строка со структурой документа
         String fullHtml;
         fullHtml += "<!DOCTYPE html>";
         fullHtml += "<meta charset=\"UTF-8\">";
         
-         fullHtml += "<html>";
+        fullHtml += "<html>";
         fullHtml += "<head>";
-
+        // Заголовок
         if (!data.caption.empty()) {
         fullHtml += "<title>" + detail::htmlize(data.caption) + "</title>"; 
         }
-
+        //Подключения css
         if (!css.empty()) {
         fullHtml += "<style>";
         fullHtml += String(css);
@@ -51,13 +52,15 @@ namespace render_csv
 
         fullHtml += "</head>";
         fullHtml += "<body>";
-        
+
+        // Вставка результата formatHtmlPartial
         fullHtml += partialResult.output;
         
+        // Завершение документа
         fullHtml += "</body>";
         fullHtml += "</html>";
         
-        result.output = std::move(fullHtml);
+        result.output = fullHtml;
         return result;
     }
 
