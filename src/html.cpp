@@ -21,28 +21,29 @@ namespace render_csv
         return result;
     }
 
-    [[nodiscard]] static auto formatHtmlPartial(TableData const& data)
+    [[nodiscard]] auto formatHtmlPartial(TableData const& data)
         -> TableFormatterResult
     {
-        String result;
+        auto  result { TableFormatterResult{} };
+        auto& output { result.output };
         
         // Начинаем таблицу
-        result += "<table>\n";
+        output += "<table>\n";
         
         // Добавляем строки таблицы
-        for (auto const& row : data.rows) {
-            result += "  <tr>\n";
+        for (auto const& row : data.body) {
+            output += "  <tr>\n";
             
             // Добавляем ячейки в строку
-            for (auto const& cell : row.cells) {
-                result += "    <td>" + detail::htmlize(cell) + "</td>\n";
+            for (auto const& cell : row) {
+                output += "    <td>" + detail::htmlize(cell) + "</td>\n";
             }
             
-            result += "  </tr>\n";
+            output += "  </tr>\n";
         }
         
         // Заканчиваем таблицу
-        result += "</table>";
+        output += "</table>";
         
         return result;
     }
