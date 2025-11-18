@@ -26,14 +26,15 @@ namespace render_csv
     [[nodiscard]] static auto formatHtmlFull(TableData const& data, StringView css = {})
         -> TableFormatterResult
     {
-        TableFormatterResult result;
+        auto result { TableFormatterResult{} };
 
         // Получение html таблицы
-        auto partialResult = formatHtmlPartial(data);
-        result.warnings = partialResult.warning;
+        auto partialResult { formatHtmlPartial(data) };
+        result.warnings = partialResult.warnings;
         
         // Строка со структурой документа
-        String fullHtml;
+        auto& fullHtml { result.output };
+
         fullHtml += "<!DOCTYPE html>";
         fullHtml += "<meta charset=\"UTF-8\">";
         
@@ -59,8 +60,7 @@ namespace render_csv
         // Завершение документа
         fullHtml += "</body>";
         fullHtml += "</html>";
-        
-        result.output = fullHtml;
+
         return result;
     }
 
