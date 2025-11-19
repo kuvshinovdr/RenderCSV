@@ -65,7 +65,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename");
     }
     TEST_CASE("-i")
     {
@@ -82,7 +82,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename");
     }
     TEST_CASE("--md")
     {
@@ -102,7 +102,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].out == "test_filename_2");
         CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Markdown);
         CHECK(data.fileGroups[0].mdType == "gfm");
@@ -125,7 +125,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].out == "test_filename_2");
         CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Markdown);
         CHECK(data.fileGroups[0].mdType == "gfm");
@@ -148,7 +148,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].out == "test_filename_2");
         CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Markdown);
         CHECK(data.fileGroups[0].mdType == "gfm");
@@ -171,7 +171,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].out == "test_filename_2");
         CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Markdown);
         CHECK(data.fileGroups[0].mdType == "asd");
@@ -194,7 +194,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].out == "test_filename_2");
         CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Html);
         CHECK(data.fileGroups[0].htmlType == "full");
@@ -217,7 +217,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].out == "test_filename_2");
         CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Html);
         CHECK(data.fileGroups[0].htmlType == "full");
@@ -240,7 +240,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].out == "test_filename_2");
         CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Html);
         CHECK(data.fileGroups[0].htmlType == "part");
@@ -263,7 +263,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].out == "test_filename_2");
         CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Html);
         CHECK(data.fileGroups[0].htmlType == "full");
@@ -286,7 +286,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].out == "test_filename_2");
         CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Html);
         CHECK(data.fileGroups[0].htmlType == "full-styled");
@@ -308,7 +308,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename");
         CHECK(data.fileGroups[0].caption == "test_captionname");
     }
     TEST_CASE("-c")
@@ -328,7 +328,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename");
         CHECK(data.fileGroups[0].caption == "test_captionname");
     }
     TEST_CASE("--many")
@@ -348,8 +348,8 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
-        CHECK(data.fileGroups[0].in[1] == "test_filename_2");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[1] == "test_filename_2");
     }
     TEST_CASE("--out")
     {
@@ -369,7 +369,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].out == "test_filename_2");
         CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Markdown);
         CHECK(data.fileGroups[0].mdType == "gfm");
@@ -392,7 +392,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].out == "test_filename_2");
         CHECK(data.fileGroups[0].outputFormat == render_csv::ConfigData::FileGroup::OutputFormat::Html);
         CHECK(data.fileGroups[0].htmlType == "full");
@@ -415,7 +415,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].head == "test_headername");
     }
     TEST_CASE("-h")
@@ -435,7 +435,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].head == "test_headername");
     }
     TEST_CASE("--mid")
@@ -456,7 +456,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].mid == "test_middlename");
     }
     TEST_CASE("-m")
@@ -477,7 +477,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].mid == "test_middlename");
     }
     TEST_CASE("--foot")
@@ -498,7 +498,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].foot == "test_footername");
     }
     TEST_CASE("-f")
@@ -519,7 +519,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].foot == "test_footername");
     }
     TEST_CASE("--css")
@@ -540,7 +540,7 @@ TEST_SUITE("config")
         auto const& data { result.configData };
         CHECK(data.version == false);
         CHECK(data.help    == false);
-        CHECK(data.fileGroups[0].in[0] == "test_filename_1");
+        CHECK(data.fileGroups[0].inputs[0] == "test_filename_1");
         CHECK(data.fileGroups[0].css == "test_stylename");
     }
 }

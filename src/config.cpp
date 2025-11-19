@@ -69,7 +69,7 @@ namespace render_csv
         auto& data    { result.configData };
         auto& log     { result.errorLog   };
         
-        auto current_group { ConfigData::FileGroup{} };
+        auto currentGroup { ConfigData::FileGroup{} };
         auto many    { false };
 
         for (auto i = 0zu; i < args.size(); ++i) {
@@ -96,14 +96,14 @@ namespace render_csv
                 else if (current.starts_with(full::Markdown))
                 {
 
-                    current_group.outputFormat = ConfigData::FileGroup::OutputFormat::Markdown;
-                    current_group.mdType = "gfm";
+                    currentGroup.outputFormat = ConfigData::FileGroup::OutputFormat::Markdown;
+                    currentGroup.mdType = "gfm";
 
                     auto eqPos = current.find('=');
                     if (eqPos != ""sv.npos){
                         auto value = current.substr(eqPos + 1);
                         if (!value.empty()){
-                            current_group.mdType = String(value);
+                            currentGroup.mdType = String(value);
                         }
                     }
 
@@ -111,20 +111,20 @@ namespace render_csv
                 else if (current.starts_with(full::Html))
                 {
                     
-                    current_group.outputFormat = ConfigData::FileGroup::OutputFormat::Html;
-                    current_group.htmlType = "full";
+                    currentGroup.outputFormat = ConfigData::FileGroup::OutputFormat::Html;
+                    currentGroup.htmlType = "full";
                     
                     auto eqPos = current.find('=');
                     if (eqPos != ""sv.npos){
                         auto value = current.substr(eqPos + 1);
                         if (value == "part"sv) {
-                            current_group.htmlType = "part";
+                            currentGroup.htmlType = "part";
                         } else if (value == "full"sv) {
-                            current_group.htmlType = "full";
+                            currentGroup.htmlType = "full";
                         } else if (value == "full-styled"sv) {
-                            current_group.htmlType = "full-styled";
+                            currentGroup.htmlType = "full-styled";
                         } else {
-                            current_group.htmlType = "full";
+                            currentGroup.htmlType = "full";
                         }
                     }
 
@@ -132,17 +132,17 @@ namespace render_csv
                 else if (current == full::Overwrite) 
                 {
                 
-                    current_group.outputFileMode = ConfigData::FileGroup::OutputFileMode::Overwrite;
+                    currentGroup.outputFileMode = ConfigData::FileGroup::OutputFileMode::Overwrite;
 
                 } 
                 else if (current == full::Append) {
 
-                    current_group.outputFileMode = ConfigData::FileGroup::OutputFileMode::Append;
+                    currentGroup.outputFileMode = ConfigData::FileGroup::OutputFileMode::Append;
 
                 } 
                 else if (current == full::Prepend) {
                     
-                    current_group.outputFileMode = ConfigData::FileGroup::OutputFileMode::Prepend;
+                    currentGroup.outputFileMode = ConfigData::FileGroup::OutputFileMode::Prepend;
 
                 } 
                 else if (current == full::Many) {
@@ -154,7 +154,7 @@ namespace render_csv
                 {
 
                     if (!next.empty()){
-                        current_group.caption = next;
+                        currentGroup.caption = next;
                         ++i;
                     }
                     else
@@ -167,7 +167,7 @@ namespace render_csv
                 {
 
                     if (!next.empty()){
-                        current_group.in.push_back(String(next));
+                        currentGroup.inputs.push_back(String(next));
                         ++i;
                     }
                     else
@@ -181,14 +181,14 @@ namespace render_csv
 
                     if (!next.empty())
                     {
-                        if (current_group.outputFormat == ConfigData::FileGroup::OutputFormat::Unspecified){
+                        if (currentGroup.outputFormat == ConfigData::FileGroup::OutputFormat::Unspecified){
                             log.push_back({current, "Missing output format for --out"sv});
                         }
-                        current_group.out = next;
+                        currentGroup.out = next;
                         ++i;
                         if (many){
-                            data.fileGroups.push_back(current_group);
-                            current_group = ConfigData::FileGroup{};
+                            data.fileGroups.push_back(currentGroup);
+                            currentGroup = ConfigData::FileGroup{};
                             many = false;
                         }
                     }
@@ -201,7 +201,7 @@ namespace render_csv
                 {
                     
                     if (!next.empty()){
-                        current_group.head = next;
+                        currentGroup.head = next;
                         ++i;
                     }
                     else
@@ -214,7 +214,7 @@ namespace render_csv
                 {
                     
                     if (!next.empty()){
-                        current_group.mid = next;
+                        currentGroup.mid = next;
                         ++i;
                     }
                     else
@@ -227,7 +227,7 @@ namespace render_csv
                 {
                     
                     if (!next.empty()){
-                        current_group.foot = next;
+                        currentGroup.foot = next;
                         ++i;
                     }
                     else
@@ -240,7 +240,7 @@ namespace render_csv
                 {
                     
                     if (!next.empty()){
-                        current_group.css = next;
+                        currentGroup.css = next;
                         ++i;
                     }
                     else
@@ -260,7 +260,7 @@ namespace render_csv
                     switch (current[j]){
                     case brief::Caption:
                         if (!next.empty()){
-                            current_group.caption = next;
+                            currentGroup.caption = next;
                             ++i;
                         }
                         else
@@ -271,7 +271,7 @@ namespace render_csv
                         
                     case brief::In:
                         if (!next.empty()){
-                            current_group.in.push_back(String(next));
+                            currentGroup.inputs.push_back(String(next));
                             ++i;
                         }
                         else
@@ -283,14 +283,14 @@ namespace render_csv
                     case brief::Out:
                         if (!next.empty())
                         {
-                            if (current_group.outputFormat == ConfigData::FileGroup::OutputFormat::Unspecified){
+                            if (currentGroup.outputFormat == ConfigData::FileGroup::OutputFormat::Unspecified){
                                 log.push_back({current, "Missing output format for -o"sv});
                             }
-                            current_group.out = next;
+                            currentGroup.out = next;
                             ++i;
                             if (many){
-                                data.fileGroups.push_back(current_group);
-                                current_group = ConfigData::FileGroup{};
+                                data.fileGroups.push_back(currentGroup);
+                                currentGroup = ConfigData::FileGroup{};
                                 many = false;
                             }
                         }
@@ -302,7 +302,7 @@ namespace render_csv
 
                     case brief::Header:
                         if (!next.empty()){
-                            current_group.head = next;
+                            currentGroup.head = next;
                             ++i;
                         }
                         else
@@ -313,7 +313,7 @@ namespace render_csv
                        
                     case brief::Middle:
                         if (!next.empty()){
-                            current_group.mid = next;
+                            currentGroup.mid = next;
                             ++i;
                         }
                         else
@@ -324,7 +324,7 @@ namespace render_csv
 
                     case brief::Footer:
                         if (!next.empty()){
-                            current_group.foot = next;
+                            currentGroup.foot = next;
                             ++i;
                         }
                         else
@@ -340,19 +340,19 @@ namespace render_csv
                 break;
 
             default:
-                current_group.in.push_back(String(current));
+                currentGroup.inputs.push_back(String(current));
                 if (!many){
-                    data.fileGroups.push_back(current_group);
-                    current_group = ConfigData::FileGroup{};
+                    data.fileGroups.push_back(currentGroup);
+                    currentGroup = ConfigData::FileGroup{};
                     if (!data.fileGroups.empty()) {
-                        current_group.outputFormat = data.fileGroups.back().outputFormat;
-                        current_group.outputFileMode = data.fileGroups.back().outputFileMode;
+                        currentGroup.outputFormat = data.fileGroups.back().outputFormat;
+                        currentGroup.outputFileMode = data.fileGroups.back().outputFileMode;
                     }
                 }
             }
         }
-        if (!current_group.in.empty()){
-            data.fileGroups.push_back(current_group);
+        if (!currentGroup.inputs.empty()){
+            data.fileGroups.push_back(currentGroup);
         }
 
         return result;
