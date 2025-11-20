@@ -69,8 +69,8 @@ namespace render_csv
         auto& data    { result.configData };
         auto& log     { result.errorLog   };
         
-        auto  current { ConfigData::FileGroup{} };
-        auto  many    { false };
+        auto currentGroup { ConfigData::FileGroup{} };
+        auto many    { false };
 
         for (auto i = 0zu; i < args.size(); ++i) {
             auto current { StringView{args[i]} };
@@ -82,16 +82,277 @@ namespace render_csv
 
             switch (argumentKind(current)) {
             case ArgumentKind::Full:
-                // TODO
+                if (current == full::Help){
+
+                    data.help = true;
+
+                }
+                else if (current == full::Version)
+                {
+                    
+                    data.version = true;
+
+                }
+                else if (current.starts_with(full::Markdown))
+                {
+
+                    currentGroup.outputFormat = ConfigData::FileGroup::OutputFormat::Markdown;
+                    currentGroup.mdType = "gfm";
+
+                    auto eqPos = current.find('=');
+                    if (eqPos != ""sv.npos){
+                        auto value = current.substr(eqPos + 1);
+                        if (!value.empty()){
+                            currentGroup.mdType = String(value);
+                        }
+                    }
+
+                }
+                else if (current.starts_with(full::Html))
+                {
+                    
+                    currentGroup.outputFormat = ConfigData::FileGroup::OutputFormat::Html;
+                    currentGroup.htmlType = "full";
+                    
+                    auto eqPos = current.find('=');
+                    if (eqPos != ""sv.npos){
+                        auto value = current.substr(eqPos + 1);
+                        if (value == "part"sv) {
+                            currentGroup.htmlType = "part";
+                        } else if (value == "full"sv) {
+                            currentGroup.htmlType = "full";
+                        } else if (value == "full-styled"sv) {
+                            currentGroup.htmlType = "full-styled";
+                        } else {
+                            currentGroup.htmlType = "full";
+                        }
+                    }
+
+                } 
+                else if (current == full::Overwrite) 
+                {
+                
+                    currentGroup.outputFileMode = ConfigData::FileGroup::OutputFileMode::Overwrite;
+
+                } 
+                else if (current == full::Append) {
+
+                    currentGroup.outputFileMode = ConfigData::FileGroup::OutputFileMode::Append;
+
+                } 
+                else if (current == full::Prepend) {
+                    
+                    currentGroup.outputFileMode = ConfigData::FileGroup::OutputFileMode::Prepend;
+
+                } 
+                else if (current == full::Many) {
+
+                    many = true;
+
+                }
+                else if (current == full::Caption)
+                {
+
+                    if (!next.empty()){
+                        currentGroup.caption = next;
+                        ++i;
+                    }
+                    else
+                    {
+                        log.push_back({current, "Missing value for --caption"sv});
+                    }
+
+                }
+                else if (current == full::In)
+                {
+
+                    if (!next.empty()){
+                        currentGroup.inputs.push_back(String(next));
+                        ++i;
+                    }
+                    else
+                    {
+                        log.push_back({current, "Missing value for --in"sv});
+                    }
+
+                }
+                else if (current == full::Out)
+                {
+
+                    if (!next.empty())
+                    {
+                        if (currentGroup.outputFormat == ConfigData::FileGroup::OutputFormat::Unspecified){
+                            log.push_back({current, "Missing output format for --out"sv});
+                        }
+                        currentGroup.out = next;
+                        ++i;
+                        if (many){
+                            data.fileGroups.push_back(currentGroup);
+                            currentGroup = ConfigData::FileGroup{};
+                            many = false;
+                        }
+                    }
+                    else
+                    {
+                        log.push_back({current, "Missing value for --out"sv});
+                    }
+                }
+                else if(current == full::Header)
+                {
+                    
+                    if (!next.empty()){
+                        currentGroup.head = next;
+                        ++i;
+                    }
+                    else
+                    {
+                        log.push_back({current, "Missing value for --head"sv});
+                    }
+
+                }
+                else if(current == full::Middle)
+                {
+                    
+                    if (!next.empty()){
+                        currentGroup.mid = next;
+                        ++i;
+                    }
+                    else
+                    {
+                        log.push_back({current, "Missing value for --mid"sv});
+                    }
+
+                }
+                else if(current == full::Footer)
+                {
+                    
+                    if (!next.empty()){
+                        currentGroup.foot = next;
+                        ++i;
+                    }
+                    else
+                    {
+                        log.push_back({current, "Missing value for --foot"sv});
+                    }
+
+                }
+                else if(current == full::Css)
+                {
+                    
+                    if (!next.empty()){
+                        currentGroup.css = next;
+                        ++i;
+                    }
+                    else
+                    {
+                        log.push_back({current, "Missing value for --css"sv});
+                    }
+
+                }
+                else
+                {
+                    log.push_back({current, "Unknown argument"sv});
+                }
                 break;
 
             case ArgumentKind::Brief:
-                // TODO
+                for (auto j = 0zu; j < current.size(); ++j){
+                    switch (current[j]){
+                    case brief::Caption:
+                        if (!next.empty()){
+                            currentGroup.caption = next;
+                            ++i;
+                        }
+                        else
+                        {
+                            log.push_back({current, "Missing value for -c"sv});
+                        }
+                        break;
+                        
+                    case brief::In:
+                        if (!next.empty()){
+                            currentGroup.inputs.push_back(String(next));
+                            ++i;
+                        }
+                        else
+                        {
+                            log.push_back({current, "Missing value for -i"sv});
+                        }
+                        break;
+                        
+                    case brief::Out:
+                        if (!next.empty())
+                        {
+                            if (currentGroup.outputFormat == ConfigData::FileGroup::OutputFormat::Unspecified){
+                                log.push_back({current, "Missing output format for -o"sv});
+                            }
+                            currentGroup.out = next;
+                            ++i;
+                            if (many){
+                                data.fileGroups.push_back(currentGroup);
+                                currentGroup = ConfigData::FileGroup{};
+                                many = false;
+                            }
+                        }
+                        else
+                        {
+                            log.push_back({current, "Missing value for -o"sv});
+                        }
+                        break;
+
+                    case brief::Header:
+                        if (!next.empty()){
+                            currentGroup.head = next;
+                            ++i;
+                        }
+                        else
+                        {
+                            log.push_back({current, "Missing value for -h"sv});
+                        }
+                        break;
+                       
+                    case brief::Middle:
+                        if (!next.empty()){
+                            currentGroup.mid = next;
+                            ++i;
+                        }
+                        else
+                        {
+                            log.push_back({current, "Missing value for -m"sv});
+                        }
+                        break;
+
+                    case brief::Footer:
+                        if (!next.empty()){
+                            currentGroup.foot = next;
+                            ++i;
+                        }
+                        else
+                        {
+                            log.push_back({current, "Missing value for -f"sv});
+                        }
+                        break;
+                    
+                    default:
+                        log.push_back({current, "Unknown brief argument"sv});
+                    }
+                }
                 break;
 
             default:
-                ;// TODO
+                currentGroup.inputs.push_back(String(current));
+                if (!many){
+                    data.fileGroups.push_back(currentGroup);
+                    currentGroup = ConfigData::FileGroup{};
+                    if (!data.fileGroups.empty()) {
+                        currentGroup.outputFormat = data.fileGroups.back().outputFormat;
+                        currentGroup.outputFileMode = data.fileGroups.back().outputFileMode;
+                    }
+                }
             }
+        }
+        if (!currentGroup.inputs.empty()){
+            data.fileGroups.push_back(currentGroup);
         }
 
         return result;
