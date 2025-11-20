@@ -2,9 +2,13 @@
 
 #include "file_group_action_details.hpp"
 #include "file_to_string.hpp"
+#include "csv.hpp"
+#include "md.hpp"
+#include "html.hpp"
 #include "string_to_file.hpp"
 #include "prepend_file.hpp"
 #include <format>
+
 
 namespace render_csv::detail
 {
@@ -39,8 +43,17 @@ namespace render_csv::detail
      bool processFileGroupData(ConfigData::FileGroup const& fg, FileGroupResult& result)
 	{
 
-    auto parser = createParser();		// Не понял, какие требуются парсер и форматтер
-    auto formatter = createFormatter(); 
+	auto parser = makeCsvParser();;
+	unique_ptr<Formatter> formatter;
+
+	if (fg.outputFormat == "markdown") {
+        formatter = makeMarkdownFormatter();
+    } else if (fg.outputFormat == "html") {
+        formatter = makeHtmlFormatter();      
+    } else {
+        result.errorLog.push_back(errorMessage("Unsupported output format", formatter.error));
+        return false;
+    }
 
     result.output.append(fg.head);
 
@@ -51,7 +64,7 @@ namespace render_csv::detail
             continue;
         }
 
-        auto formatResult = formatter.format(parseResult.data);
+        auto formatResult = formatter->format(parseResult.data);
         if (!formatResult.success) {
             result.errorLog.push_back(errorMessage("Error formatting parsed data", formatResult.error));
             continue;
