@@ -9,18 +9,45 @@
 namespace render_csv::detail
 {
 
+    constexpr auto FailedToLoad = "Failed to load file "sv;
+
     auto errorMessage(StringView intro, ErrorCode error)
         -> String
     {
         return std::format("{}: ({}) {}", intro, error.value(), error.message());
     }
 
+    [[nodiscard]] static auto loadFileGroupElement(
+        String const&              filename,
+        FileGroupResult::ErrorLog& errorLog
+        ) -> String
+    {
+        if (filename.empty()) {
+            return {};
+        }
+
+        auto data { fileToString(filename) };
+        
+        if (data) {
+            return std::move(data).value();
+        }
+
+        auto message { std::format("{} {}", FailedToLoad, filename) };
+        errorLog.push_back(errorMessage(message, data.error()));
+        return {};
+    }
+
     // Попробовать загрузить все файлы в строки.
     auto loadFileGroupData(ConfigData::FileGroup const& fg) noexcept
         -> FileGroupResult
     {
-        // TODO
-        return {};
+        auto result { FileGroupResult{} };
+
+        result.loadedFileGroupData.head = loadFileGroupElement(fg.head, result.errorLog);
+        // TODO: аналогично mid, foot, css и inputs (в цикле).
+        // result.loadedFileGroupData.inputs.push_back
+
+        return result;
     }
 
     // "Ядро" программы: готовы входы (в виде строк), сформировать выход.
