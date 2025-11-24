@@ -14,7 +14,7 @@ namespace render_csv
             case '<': result += "&lt;"; break;
             case '>': result += "&gt;"; break;
             case '&': result += "&amp;"; break;
-            case '\n': result += "<BR>"; break;
+            case '\n': result += "<br>\n"; break;
             default: result += c; break;
             }
         }
@@ -24,24 +24,32 @@ namespace render_csv
     [[nodiscard]] static auto formatHtmlPartial(TableData const& data)
         -> TableFormatterResult
     {
-        String result;
+        TableFormatterResult result;
         
-        // Начинаем таблицу
         result += "<table>\n";
         
-        // Добавляем строки таблицы
-        for (auto const& row : data.rows) {
+        if (!data.caption.empty()) {
+            result += "  <caption>" + detail::htmlize(data.caption) + "</caption>\n";
+        }
+        
+        if (!data.headers.empty()) {
+            result += "  <tr>\n";
+            for (auto const& header : data.headers) {
+                result += "    <th>" + detail::htmlize(header) + "</th>\n";
+            }
+            result += "  </tr>\n";
+        }
+
+        for (auto const& row : data.body) {
             result += "  <tr>\n";
             
-            // Добавляем ячейки в строку
-            for (auto const& cell : row.cells) {
+            for (auto const& cell : row) {
                 result += "    <td>" + detail::htmlize(cell) + "</td>\n";
             }
             
             result += "  </tr>\n";
         }
         
-        // Заканчиваем таблицу
         result += "</table>";
         
         return result;
@@ -50,8 +58,6 @@ namespace render_csv
     [[nodiscard]] static auto formatHtmlFull(TableData const& data, StringView css = {})
         -> TableFormatterResult
     {
-        // Если css.empty(), то не внедряем CSS, иначе внедряем.
-        // TODO
         return {};
     }
 
