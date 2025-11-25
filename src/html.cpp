@@ -21,36 +21,38 @@ namespace render_csv
         return result;
     }
 
-    [[nodiscard]] static auto formatHtmlPartial(TableData const& data)
+    [[nodiscard]] auto formatHtmlPartial(TableData const& data)
         -> TableFormatterResult
     {
-        TableFormatterResult result;
+        auto  result { TableFormatterResult{} };
+        auto& output { result.output };
         
-        result += "<table>\n";
+        output += "<table>\n";
         
         if (!data.caption.empty()) {
-            result += "  <caption>" + detail::htmlize(data.caption) + "</caption>\n";
+            output += "  <caption>" + detail::htmlize(data.caption) + "</caption>\n";
         }
         
         if (!data.headers.empty()) {
-            result += "  <tr>\n";
+            output += "  <tr>\n";
             for (auto const& header : data.headers) {
-                result += "    <th>" + detail::htmlize(header) + "</th>\n";
+                output += "    <th>" + detail::htmlize(header) + "</th>\n";
             }
-            result += "  </tr>\n";
+            
+            output += "  </tr>\n";
         }
 
         for (auto const& row : data.body) {
-            result += "  <tr>\n";
+            output += "  <tr>\n";
             
             for (auto const& cell : row) {
-                result += "    <td>" + detail::htmlize(cell) + "</td>\n";
+                output += "    <td>" + detail::htmlize(cell) + "</td>\n";
             }
             
-            result += "  </tr>\n";
+            output += "  </tr>\n";
         }
         
-        result += "</table>";
+        output += "</table>";
         
         return result;
     }
