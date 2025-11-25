@@ -13,7 +13,7 @@ using namespace render_csv;
 TEST_SUITE("html")
 {
     
-    TEST_CASE("formatHtmlPartial")
+    TEST_CASE("formatHtmlPartial/no caption/no headers")
     {
         auto const body
         {
@@ -39,6 +39,58 @@ TEST_SUITE("html")
         };
 
         auto result { formatHtmlPartial(TableData{.body = body})};
+
+        CHECK(result.output == expected);
+    }
+
+
+    TEST_CASE("formatHtmlPartial/caption/headers")
+    {
+        auto const body
+        {
+            TableData::Body
+            {
+                { "alpha", "beta", "xxx", "yyy" },
+                { "gamma", "delta", "zzz" },
+                { "epsilon", "zeta" },
+            }
+        };
+
+        auto const expected
+        {
+            "<table>\n"
+            "  <caption>Test Table</caption>\n"
+            "  <tr>\n"
+            "    <th>Column 1</th>\n"
+            "    <th>Column 2</th>\n"
+            "  </tr>\n"
+            "  <tr>\n"
+            "    <td>alpha</td>\n"
+            "    <td>beta</td>\n"
+            "    <td>xxx</td>\n"
+            "    <td>yyy</td>\n"
+            "  </tr>\n"
+            "  <tr>\n"
+            "    <td>gamma</td>\n"
+            "    <td>delta</td>\n"
+            "    <td>zzz</td>\n"
+            "  </tr>\n"
+            "  <tr>\n"
+            "    <td>epsilon</td>\n"
+            "    <td>zeta</td>\n"
+            "  </tr>\n"
+            "</table>"s
+        };
+
+        auto result 
+        { 
+            formatHtmlPartial(TableData
+                {
+                    .caption = "Test Table",
+                    .headers = { "Column 1", "Column 2" },
+                    .body = body
+                })
+        };
 
         CHECK(result.output == expected);
     }
