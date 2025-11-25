@@ -30,6 +30,9 @@
     <ClCompile Include="src\prepend_file.cpp" />
     <ClCompile Include="src\string_to_file.cpp" />
     <ClCompile Include="src\table_formatter_utils.cpp" />
+    <ClCompile Include="tests\test_html.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\config.hpp" />
