@@ -8,16 +8,21 @@ namespace render_csv
     auto detail::htmlize(StringView input)
         -> String
     {
-        String result;
-        for (char c : input) {
-            switch (c) {
-            case '<': result += "&lt;"; break;
-            case '>': result += "&gt;"; break;
-            case '&': result += "&amp;"; break;
+        auto result { String{} };
+        result.reserve(input.size());
+
+        for (auto c : input)
+        {
+            switch (c)
+            {
+            case '<':  result += "&lt;";   break;
+            case '>':  result += "&gt;";   break;
+            case '&':  result += "&amp;";  break;
             case '\n': result += "<br>\n"; break;
-            default: result += c; break;
+            default:   result += c;        break;
             }
         }
+
         return result;
     }
 
