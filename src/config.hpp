@@ -1,5 +1,5 @@
 ﻿/// @file  config.hpp
-/// @brief Класс, отвечающий за настройки программы.
+/// @brief Функционал, отвечающий за настройки программы.
 #ifndef RENDER_CSV_CONFIG_HPP_INCLUDED
 #define RENDER_CSV_CONFIG_HPP_INCLUDED
 
@@ -11,11 +11,13 @@
 namespace render_csv
 {
 
+    /// @brief Данные конфигурации программы.
     struct ConfigData
     {
         bool    help        { false };
         bool    version     { false };
 
+        /// @brief Описание файловой операции с получением одного результата.
         struct FileGroup
         {
             enum class OutputFormat
@@ -49,7 +51,7 @@ namespace render_csv
             using Inputs =
                 std::vector<String>;
 
-            Inputs  in          {};
+            Inputs  inputs      {};
         };
 
         using FileGroups =
@@ -58,6 +60,7 @@ namespace render_csv
         FileGroups fileGroups   {};
     };
 
+    /// @brief Результат разбора параметров командной строки: конфигурация и протокол ошибок разбора.
     struct CommandLineArguments
     {
         ConfigData  configData  {};

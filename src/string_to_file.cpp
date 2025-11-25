@@ -10,6 +10,8 @@ namespace render_csv
         -> std::ios_base::openmode
     {
         switch (mode) {
+        case FileUpdateMode::OnlyNew:
+            // TODO: report logical error
         case FileUpdateMode::Rewrite:
             return std::ios::out | std::ios::binary;
         case FileUpdateMode::Append:
@@ -19,13 +21,30 @@ namespace render_csv
         std::unreachable();
     }
 
-    auto stringToFile(FilePath const& filename, 
+    [[nodiscard]] static bool fileAvailableForWrite(FilePath const& filename, FileUpdateMode mode) noexcept
+    {
+        if (mode == FileUpdateMode::OnlyNew) {
+            [[maybe_unused]] auto ec { std::error_code{} };
+            return std::filesystem::exists(filename, ec);
+        }
+
+        return true;
+    }
+
+    // TODO: может быть сделать свой класс категории ошибок
+    auto stringToFile(
+        FilePath const& filename, 
         StringView      data, 
         FileUpdateMode  mode
-    ) noexcept -> StringToFileResult
+        ) noexcept 
+        -> StringToFileResult
     {
-        // TODO: свой класс категории ошибок
-        std::ofstream file(filename, toIosMode(mode));
+        if (!fileAvailableForWrite(filename, mode)) {
+            return std::unexpected(std::make_error_code(std::errc::file_exists));
+        }
+
+        auto file { std::ofstream(filename, toIosMode(mode)) };
+
         if (!file.is_open()) {
             return std::unexpected(std::make_error_code(std::errc::read_only_file_system));
         }
@@ -36,6 +55,7 @@ namespace render_csv
         }
 
         file.write(data.data(), static_cast<std::streamsize>(data.size()));
+
         if (file.bad()) {
             return std::unexpected(std::make_error_code(std::errc::interrupted));
         }

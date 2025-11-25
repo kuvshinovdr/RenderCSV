@@ -12,10 +12,12 @@ namespace render_csv
 
     using StringToFileResult = Expected<void>;
 
+    /// @brief Что делать, если файл, который мы хотим записать, уже существует.
     enum class FileUpdateMode
     {
-        Rewrite,
-        Append,
+        OnlyNew, ///< ошибка, если файл уже есть
+        Rewrite, ///< перезаписать, если файл уже есть
+        Append,  ///< дописать данные в конец файла, если он уже есть
     };
 
     /// @brief Записать данные StringView в заданный файл как двоичные данные.
@@ -23,7 +25,8 @@ namespace render_csv
         FilePath const& filename, 
         StringView      data, 
         FileUpdateMode  mode = FileUpdateMode::Rewrite
-        ) noexcept -> StringToFileResult;
+        ) noexcept 
+        -> StringToFileResult;
 
 }
 

@@ -9,6 +9,7 @@
 namespace render_csv
 {
 
+    /// @brief Загруженные данные таблицы.
     struct TableData
     {                
         using Row       = std::vector<String>;

@@ -2,9 +2,12 @@
 sources = [
     'config.cpp',
     'csv.cpp',
+	'file_group_action.cpp',
+	'file_group_action_details.cpp',
     'file_to_string.cpp',
     'html.cpp',
     'md.cpp',
+	'prepend_file.cpp',
     'string_to_file.cpp',
 	'table_formatter_utils.cpp',
 ]

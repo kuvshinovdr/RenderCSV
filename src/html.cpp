@@ -5,40 +5,102 @@
 namespace render_csv
 {
 
-    [[nodiscard]] static auto htmlize(StringView input)
+    auto detail::htmlize(StringView input)
         -> String
     {
-        String result;
+        auto result { String{} };
         result.reserve(input.size());
 
-        for (char c : input)
+        for (auto c : input)
         {
             switch (c)
             {
             case '<':  result += "&lt;";   break;
             case '>':  result += "&gt;";   break;
             case '&':  result += "&amp;";  break;
-            case '\n': result += "<BR>";   break;
+            case '\n': result += "<br>\n"; break;
             default:   result += c;        break;
             }
         }
 
-    return result;
+        return result;
     }
 
-    [[nodiscard]] static auto formatHtmlPartial(TableData const& data)
+    [[nodiscard]] auto formatHtmlPartial(TableData const& data)
         -> TableFormatterResult
     {
-        // TODO
-        return {};
+        auto  result { TableFormatterResult{} };
+        auto& output { result.output };
+        
+        output += "<table>\n";
+        
+        if (!data.caption.empty()) {
+            output += "  <caption>" + detail::htmlize(data.caption) + "</caption>\n";
+        }
+        
+        if (!data.headers.empty()) {
+            output += "  <tr>\n";
+            for (auto const& header : data.headers) {
+                output += "    <th>" + detail::htmlize(header) + "</th>\n";
+            }
+            
+            output += "  </tr>\n";
+        }
+
+        for (auto const& row : data.body) {
+            output += "  <tr>\n";
+            
+            for (auto const& cell : row) {
+                output += "    <td>" + detail::htmlize(cell) + "</td>\n";
+            }
+            
+            output += "  </tr>\n";
+        }
+        
+        output += "</table>";
+        
+        return result;
     }
 
     [[nodiscard]] static auto formatHtmlFull(TableData const& data, StringView css = {})
         -> TableFormatterResult
     {
-        // Если css.empty(), то не внедряем CSS, иначе внедряем.
-        // TODO
-        return {};
+        auto result { TableFormatterResult{} };
+
+        // Получение html таблицы
+        auto partialResult { formatHtmlPartial(data) };
+        result.warnings = partialResult.warnings;
+        
+        // Строка со структурой документа
+        auto& fullHtml { result.output };
+
+        fullHtml += "<!DOCTYPE html>";
+        fullHtml += "<meta charset=\"UTF-8\">";
+        
+        fullHtml += "<html>";
+        fullHtml += "<head>";
+        // Заголовок
+        if (!data.caption.empty()) {
+        fullHtml += "<title>" + detail::htmlize(data.caption) + "</title>"; 
+        }
+        //Подключения css
+        if (!css.empty()) {
+        fullHtml += "<style>";
+        fullHtml += String(css);
+        fullHtml += "</style>";
+        }
+
+        fullHtml += "</head>";
+        fullHtml += "<body>";
+
+        // Вставка результата formatHtmlPartial
+        fullHtml += partialResult.output;
+        
+        // Завершение документа
+        fullHtml += "</body>";
+        fullHtml += "</html>";
+
+        return result;
     }
 
     auto makeHtmlFormatter(HtmlKind kind, StringView css)

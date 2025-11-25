@@ -8,11 +8,13 @@
 namespace render_csv
 {
 
+    /// @brief Вид генерации Markdown.
     enum class MarkdownKind
     {
         GithubFlavored,
     };
 
+    /// @brief Создать генератор Markdown нужного вида. 
     [[nodiscard]] auto makeMarkdownFormatter(MarkdownKind kind)
         -> TableFormatter;
 
