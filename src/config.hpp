@@ -11,11 +11,13 @@
 namespace render_csv
 {
 
+    /// @brief Данные конфигурации программы.
     struct ConfigData
     {
         bool    help        { false };
         bool    version     { false };
 
+        /// @brief Описание файловой операции с получением одного результата.
         struct FileGroup
         {
             enum class OutputFormat
@@ -58,6 +60,7 @@ namespace render_csv
         FileGroups fileGroups   {};
     };
 
+    /// @brief Результат разбора параметров командной строки: конфигурация и протокол ошибок разбора.
     struct CommandLineArguments
     {
         ConfigData  configData  {};

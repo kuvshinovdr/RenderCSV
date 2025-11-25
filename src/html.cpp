@@ -60,7 +60,42 @@ namespace render_csv
     [[nodiscard]] static auto formatHtmlFull(TableData const& data, StringView css = {})
         -> TableFormatterResult
     {
-        return {};
+        auto result { TableFormatterResult{} };
+
+        // Получение html таблицы
+        auto partialResult { formatHtmlPartial(data) };
+        result.warnings = partialResult.warnings;
+        
+        // Строка со структурой документа
+        auto& fullHtml { result.output };
+
+        fullHtml += "<!DOCTYPE html>";
+        fullHtml += "<meta charset=\"UTF-8\">";
+        
+        fullHtml += "<html>";
+        fullHtml += "<head>";
+        // Заголовок
+        if (!data.caption.empty()) {
+        fullHtml += "<title>" + detail::htmlize(data.caption) + "</title>"; 
+        }
+        //Подключения css
+        if (!css.empty()) {
+        fullHtml += "<style>";
+        fullHtml += String(css);
+        fullHtml += "</style>";
+        }
+
+        fullHtml += "</head>";
+        fullHtml += "<body>";
+
+        // Вставка результата formatHtmlPartial
+        fullHtml += partialResult.output;
+        
+        // Завершение документа
+        fullHtml += "</body>";
+        fullHtml += "</html>";
+
+        return result;
     }
 
     auto makeHtmlFormatter(HtmlKind kind, StringView css)
