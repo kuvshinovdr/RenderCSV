@@ -96,3 +96,43 @@ TEST_SUITE("html")
     }
 	
 }
+using render_csv::detail::htmlize;
+
+TEST_SUITE("htmlize")
+{
+    TEST_CASE("htmlize/basic replacements")
+    {
+        CHECK(htmlize("<") == "&lt;");
+        CHECK(htmlize(">") == "&gt;");
+        CHECK(htmlize("&") == "&amp;");
+    }
+
+    TEST_CASE("htmlize/newline")
+    {
+        CHECK(htmlize("a\nb") == "a<br>\nb");
+    }
+
+    TEST_CASE("htmlize/no changes")
+    {
+        CHECK(htmlize("hello") == "hello");
+        CHECK(htmlize("12345") == "12345");
+    }
+
+    TEST_CASE("htmlize/mixed string")
+    {
+        auto const input =
+            "<tag>\n&hello <world>";
+
+        auto const expected =
+            "&lt;tag&gt;<br>\n"
+            "&amp;hello &lt;world&gt;"s;
+
+        CHECK(htmlize(input) == expected);
+    }
+
+    TEST_CASE("htmlize/empty string")
+    {
+        CHECK(htmlize("") == "");
+    }
+}
+
