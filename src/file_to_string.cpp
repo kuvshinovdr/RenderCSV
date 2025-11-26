@@ -1,4 +1,4 @@
-﻿/// @file  file_to_string.hpp
+﻿/// @file  file_to_string.cpp
 #include "file_to_string.hpp"
 #include <fstream>
 #include <utility>
