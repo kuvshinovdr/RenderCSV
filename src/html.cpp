@@ -8,16 +8,18 @@ namespace render_csv
     auto detail::htmlize(StringView input)
         -> String
     {
-        String result;
-        for (char c : input) {
+        auto result { String{} };
+
+        for (auto c : input) {
             switch (c) {
-            case '<': result += "&lt;"; break;
-            case '>': result += "&gt;"; break;
-            case '&': result += "&amp;"; break;
-            case '\n': result += "<br>\n"; break;
-            default: result += c; break;
+            case '<':  result += "&lt;"sv;   break;
+            case '>':  result += "&gt;"sv;   break;
+            case '&':  result += "&amp;"sv;  break;
+            case '\n': result += "<br>\n"sv; break;
+            default:   result += c;
             }
         }
+
         return result;
     }
 
@@ -27,73 +29,82 @@ namespace render_csv
         auto  result { TableFormatterResult{} };
         auto& output { result.output };
         
-        output += "<table>\n";
+        output += "<table>\n"sv;
         
         if (!data.caption.empty()) {
-            output += "  <caption>" + detail::htmlize(data.caption) + "</caption>\n";
+            output += "  <caption>"sv;
+            output += detail::htmlize(data.caption);
+            output += "</caption>\n"sv;
         }
         
         if (!data.headers.empty()) {
-            output += "  <tr>\n";
+            output += "  <tr>\n"sv;
+            
             for (auto const& header : data.headers) {
-                output += "    <th>" + detail::htmlize(header) + "</th>\n";
+                output += "    <th>"sv;
+                output += detail::htmlize(header);
+                output += "</th>\n"sv;
             }
             
-            output += "  </tr>\n";
+            output += "  </tr>\n"sv;
         }
 
         for (auto const& row : data.body) {
-            output += "  <tr>\n";
+            output += "  <tr>\n"sv;
             
             for (auto const& cell : row) {
-                output += "    <td>" + detail::htmlize(cell) + "</td>\n";
+                output += "    <td>"sv;
+                output += detail::htmlize(cell);
+                output += "</td>\n"sv;
             }
             
-            output += "  </tr>\n";
+            output += "  </tr>\n"sv;
         }
         
-        output += "</table>";
+        output += "</table>"sv;
         
         return result;
     }
 
-    [[nodiscard]] static auto formatHtmlFull(TableData const& data, StringView css = {})
+    [[nodiscard]] auto formatHtmlFull(TableData const& data, StringView css = {})
         -> TableFormatterResult
     {
         auto result { TableFormatterResult{} };
 
-        // Получение html таблицы
+        // Получение HTML таблицы.
         auto partialResult { formatHtmlPartial(data) };
-        result.warnings = partialResult.warnings;
+        result.warnings = std::move(partialResult.warnings);
         
-        // Строка со структурой документа
+        // Строка со структурой документа.
         auto& fullHtml { result.output };
 
-        fullHtml += "<!DOCTYPE html>";
-        fullHtml += "<meta charset=\"UTF-8\">";
+        fullHtml += "<!DOCTYPE html>"sv;
+        fullHtml += "<meta charset=\"UTF-8\">"sv;
         
-        fullHtml += "<html>";
-        fullHtml += "<head>";
-        // Заголовок
+        fullHtml += "<html>"sv;
+        fullHtml += "<head>"sv;
+        
+        // Заголовок.
         if (!data.caption.empty()) {
-        fullHtml += "<title>" + detail::htmlize(data.caption) + "</title>"; 
+            fullHtml += "<title>"sv;
+            fullHtml += detail::htmlize(data.caption);
+            fullHtml += "</title>"sv; 
         }
-        //Подключения css
+        
+        // Подключение CSS.
         if (!css.empty()) {
-        fullHtml += "<style>";
-        fullHtml += String(css);
-        fullHtml += "</style>";
+            fullHtml += "<style>"sv;
+            fullHtml += String(css);
+            fullHtml += "</style>"sv;
         }
 
-        fullHtml += "</head>";
-        fullHtml += "<body>";
+        fullHtml += "</head><body>"sv;
 
-        // Вставка результата formatHtmlPartial
+        // Вставка результата formatHtmlPartial.
         fullHtml += partialResult.output;
         
-        // Завершение документа
-        fullHtml += "</body>";
-        fullHtml += "</html>";
+        // Завершение документа.
+        fullHtml += "</body></html>"sv;
 
         return result;
     }
