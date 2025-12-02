@@ -9,13 +9,13 @@ namespace render_csv
         -> String
     {
         auto result { String{} };
-
+        result.reserve(input.size());
         for (auto c : input) {
             switch (c) {
-            case '<':  result += "&lt;"sv;   break;
-            case '>':  result += "&gt;"sv;   break;
-            case '&':  result += "&amp;"sv;  break;
-            case '\n': result += "<br>\n"sv; break;
+            case '<':  result += "&lt;";   break;
+            case '>':  result += "&gt;";   break;
+            case '&':  result += "&amp;";  break;
+            case '\n': result += "<br>\n"; break;
             default:   result += c;
             }
         }
