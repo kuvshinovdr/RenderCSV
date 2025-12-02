@@ -4,7 +4,6 @@
 #define RENDER_CSV_CONFIG_HPP_INCLUDED
 
 #include "string_operations_fwd.hpp"
-#include <memory>
 #include <vector>
 #include <span>
 
