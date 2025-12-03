@@ -115,7 +115,7 @@ namespace render_csv
                     currentGroup.htmlType = "full";
                     
                     auto eqPos = current.find('=');
-                    if (eqPos != ""sv.npos){
+                    if (eqPos != current.npos){
                         auto value = current.substr(eqPos + 1);
                         if (value == "part"sv) {
                             currentGroup.htmlType = "part";
