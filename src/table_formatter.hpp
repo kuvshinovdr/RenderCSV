@@ -3,6 +3,7 @@
 #ifndef RENDER_CSV_TABLE_FORMATTER_HPP_INCLUDED
 #define RENDER_CSV_TABLE_FORMATTER_HPP_INCLUDED
 
+#include <cstddef>
 #include <cstdint>
 #include <vector>
 #include <functional>

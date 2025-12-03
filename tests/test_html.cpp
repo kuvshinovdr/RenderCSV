@@ -1,4 +1,5 @@
-﻿#include "html.hpp"
+﻿/// @file  test_html.cpp
+#include "html.hpp"
 #include <doctest.h>
 
 namespace render_csv
@@ -96,32 +97,72 @@ TEST_SUITE("html")
     }
 	
 }
-using render_csv::detail::htmlize;
+
+
+TEST_SUITE("htmlizeLength")
+{
+    using render_csv::detail::htmlizeLength;
+    TEST_CASE("htmlizeLength/basic replacements")
+    {
+        CHECK(htmlizeLength("<") == "&lt;"sv.size());
+        CHECK(htmlizeLength(">") == "&gt;"sv.size());
+        CHECK(htmlizeLength("&") == "&amp;"sv.size());
+    }
+
+    TEST_CASE("htmlizeLength/newline")
+    {
+        CHECK(htmlizeLength("a\nb") == "a<br>\r\nb"sv.size());
+    }
+
+    TEST_CASE("htmlizeLength/no changes")
+    {
+        CHECK(htmlizeLength("hello") == "hello"sv.size());
+        CHECK(htmlizeLength("12345") == "12345"sv.size());
+    }
+
+    TEST_CASE("htmlizeLength/mixed string")
+    {
+        auto const input =
+            "<tag>\n&hello <world>\r"sv;
+
+        auto const expected =
+            "&lt;tag&gt;<br>\r\n"
+            "&amp;hello &lt;world&gt;"sv.size();
+
+        CHECK(htmlizeLength(input) == expected);
+    }
+
+    TEST_CASE("htmlizeLength/empty string")
+    {
+        CHECK(htmlizeLength("") == 0);
+    }
+}
 
 TEST_SUITE("htmlize")
 {
+    using render_csv::detail::htmlize;
     TEST_CASE("htmlize/basic replacements")
     {
-        CHECK(htmlize("<") == "&lt;");
-        CHECK(htmlize(">") == "&gt;");
-        CHECK(htmlize("&") == "&amp;");
+        CHECK(htmlize("<") == "&lt;"sv);
+        CHECK(htmlize(">") == "&gt;"sv);
+        CHECK(htmlize("&") == "&amp;"sv);
     }
 
     TEST_CASE("htmlize/newline")
     {
-        CHECK(htmlize("a\nb") == "a<br>\r\nb");
+        CHECK(htmlize("a\nb") == "a<br>\r\nb"sv);
     }
 
     TEST_CASE("htmlize/no changes")
     {
-        CHECK(htmlize("hello") == "hello");
-        CHECK(htmlize("12345") == "12345");
+        CHECK(htmlize("hello") == "hello"sv);
+        CHECK(htmlize("12345") == "12345"sv);
     }
 
     TEST_CASE("htmlize/mixed string")
     {
         auto const input =
-            "<tag>\n&hello <world>\r";
+            "<tag>\n&hello <world>\r"sv;
 
         auto const expected =
             "&lt;tag&gt;<br>\r\n"
@@ -132,7 +173,7 @@ TEST_SUITE("htmlize")
 
     TEST_CASE("htmlize/empty string")
     {
-        CHECK(htmlize("") == "");
+        CHECK(htmlize("") == ""sv);
     }
 }
 

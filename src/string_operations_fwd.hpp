@@ -3,6 +3,10 @@
 #ifndef RENDER_CSV_STRING_OPERATIONS_FWD_HPP_INCLUDED
 #define RENDER_CSV_STRING_OPERATIONS_FWD_HPP_INCLUDED
 
+#ifdef _MSC_VER
+#include <ostream>
+#endif
+
 #include <string>
 #include <string_view>
 

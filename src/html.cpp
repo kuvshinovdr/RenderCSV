@@ -1,23 +1,71 @@
 ﻿/// @file  html.cpp
 #include "html.hpp"
 #include "table_formatter_utils.hpp"
+#include <algorithm>
+#include <ranges>
 
 namespace render_csv
 {
+
+    namespace html
+    {
+
+        constexpr auto Lt   { "&lt;"sv     };
+        constexpr auto Gt   { "&gt;"sv     };
+        constexpr auto Amp  { "&amp;"sv    };
+        constexpr auto Br   { "<br>\r\n"sv };
+
+    }
+
+
+    auto detail::htmlizeLength(StringView input) noexcept
+        -> std::size_t
+    {
+        auto result { 0zu };
+
+        for (auto c : input) {
+            switch (c) {
+            using namespace html;
+            case '<':  result += Lt.size();  break;
+            case '>':  result += Gt.size();  break;
+            case '&':  result += Amp.size(); break;
+            case '\r': break; // HTML использует CRLF
+            case '\n': result += Br.size();  break;
+            default:   ++result;
+            }
+        }
+
+        return result;
+    }
 
     auto detail::htmlize(StringView input)
         -> String
     {
         auto result { String{} };
-        result.reserve(input.size());
+        
+        result.resize(htmlizeLength(input));
+        auto writePos { result.data() };
+
         for (auto c : input) {
             switch (c) {
-            case '<':  result += "&lt;"sv;   break;
-            case '>':  result += "&gt;"sv;   break;
-            case '&':  result += "&amp;"sv;  break;
-            case '\r': break; // HTML использует CRLF
-            case '\n': result += "<br>\r\n"sv; break;
-            default:   result += c;
+            using namespace html;
+            case '<':  
+                writePos = std::copy_n(Lt.data(), Lt.size(), writePos);
+                break;
+            case '>':
+                writePos = std::copy_n(Gt.data(), Gt.size(), writePos);
+                break;
+            case '&':
+                writePos = std::copy_n(Amp.data(), Amp.size(), writePos);
+                break;
+            case '\r':
+                // HTML использует CRLF
+                break;
+            case '\n':
+                writePos = std::copy_n(Br.data(), Br.size(), writePos);
+                break;
+            default:
+                *writePos++ = c;
             }
         }
 

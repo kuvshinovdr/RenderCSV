@@ -8,9 +8,13 @@
 namespace render_csv
 {
 
+    //  Для упрощения тестирования.
     namespace detail
     {
-        //  Для упрощения тестирования.
+        /// @brief Вычислить длину результата htmlize.
+        [[nodiscard]] auto htmlizeLength(StringView) noexcept
+            -> std::size_t;
+
         /// @brief Выполнить замену специальных символов (<, >, & и т.п.) на задающие их последовательности HTML.
         [[nodiscard]] auto htmlize(StringView)
             -> String;
