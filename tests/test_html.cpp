@@ -109,7 +109,7 @@ TEST_SUITE("htmlize")
 
     TEST_CASE("htmlize/newline")
     {
-        CHECK(htmlize("a\nb") == "a<br>\nb");
+        CHECK(htmlize("a\nb") == "a<br>\r\nb");
     }
 
     TEST_CASE("htmlize/no changes")
@@ -121,10 +121,10 @@ TEST_SUITE("htmlize")
     TEST_CASE("htmlize/mixed string")
     {
         auto const input =
-            "<tag>\n&hello <world>";
+            "<tag>\n&hello <world>\r";
 
         auto const expected =
-            "&lt;tag&gt;<br>\n"
+            "&lt;tag&gt;<br>\r\n"
             "&amp;hello &lt;world&gt;"s;
 
         CHECK(htmlize(input) == expected);
