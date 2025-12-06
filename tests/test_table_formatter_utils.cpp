@@ -1,47 +1,42 @@
 ﻿#include "../table_formatter_utils.hpp"
-#include "../table_formatter_utils.cpp"
-#include <cassert>
-#include <iostream>
-#include <limits>
+#include <doctest.h>
 
-void test_valid_table() {
-    TableData table = {
-        {"Name", "Age"},
-        {"Alice", "25"},
-        {"Bob", "30"}
-    };
-    auto log = simpleValidate(table);
-    assert(log.empty());
-    std::cout << "OK\n";
-}
+TEST_SUITE("table_formatter_utils")
+{
 
-void test_different_columns() {
-    TableData table = {
-        {"A", "B", "C"},
-        {"1", "2"},
-        {"3", "4", "5"}
-    };
-    auto log = simpleValidate(table);
-    assert(log.size() == 1);
-    std::cout << "OK\n";
-}
+    TEST_CASE("valid table")
+    {
+        TableData table = {
+            {"Name", "Age"},
+            {"Alice", "25"},
+            {"Bob", "30"}
+        };
+        auto log = simpleValidate(table);
 
-void test_invalid_utf8() {
-    TableData table = {
-        {"A", "B"},
-        {"1", std::string("\xFF")}
-    };
-    auto log = simpleValidate(table);
-    assert(log.size() >= 1);
-    std::cout << "OK\n";
-}
+        CHECK(log.empty());
+    }
 
-int main() {
-    test_valid_table();
-    test_different_columns();
-    test_invalid_utf8();
+    TEST_CASE("different columns")
+    {
+        TableData table = {
+            {"A", "B", "C"},
+            {"1", "2"},
+            {"3", "4", "5"}
+        };
+        auto log = simpleValidate(table);
 
-    std::cout << "Тесты пройдены\n";
+        CHECK(log.size() == 1);
+    }
 
-    return 0;
+    TEST_CASE("invalid utf8")
+    {
+        TableData table = {
+            {"A", "B"},
+            {"1", std::string("\xFF")}
+        };
+        auto log = simpleValidate(table);
+
+        CHECK(log.size() >= 1);
+    }
+
 }
