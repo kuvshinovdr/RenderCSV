@@ -8,7 +8,7 @@
 namespace render_csv
 {
 
-    /// @brief Простая проверка качества данных (длины строк таблицы). 
+    /// @brief Простая проверка качества данных (длины строк таблицы).
     [[nodiscard]] auto simpleValidate(TableData const&)
         -> TableFormatterResult::Log;
 
@@ -26,7 +26,7 @@ namespace render_csv
         TableBodyColumnWidths body;
     };
 
-    /// @brief Вычислить ширины всех столбцов во всех строках в графических позициях UTF-8. 
+    /// @brief Вычислить ширины всех столбцов во всех строках в графических позициях UTF-8.
     [[nodiscard]] auto computeColumnWidthsUtf8(TableData const&)
         -> TableColumnWidths;
 

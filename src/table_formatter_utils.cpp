@@ -4,8 +4,6 @@
 #include <utf8.h>
 
 // Типы данных определены в table_data.hpp транзитивно
-namespace render_csv
-{
 
 // Виды предупреждений:
 // 1. Строки разной ширины в столбцах -- на каждой строке, количество столбцов в которой отличается от предыдущей.
@@ -16,29 +14,30 @@ auto simpleValidate(TableData const& data)
 {
     TableFormatterResult::Log log;
 
-    if (data.body.empty()) {
+    if (data.empty()) {
         return log;
     }
 
     // Проверка: количество строк помещается в int32_t
-    if (data.body.size() > std::numeric_limits<std::int32_t>::max()) {
+    if (data.size() > std::numeric_limits<std::int32_t>::max()) {
         log.push_back({
-            0,
-            "Слишком много строк (превышен лимит int32_t)"
+            TableFormatterResult::LogEntry::Type::Warning,
+            "Row limit exceeded (int32_t limit)"
         });
     }
 
-    std::size_t first_row_columns = data.body[0].size();
+    std::size_t first_row_columns = data[0].size();
 
-    for (std::size_t i = 0; i < data.body.size(); ++i) {
-        const auto& row = data.body[i];
+    for (std::size_t i = 0; i < data.size(); ++i) {
+        const auto& row = data[i];
 
         // Проверка: количество столбцов совпадает с первой строкой
         if (i > 0 && row.size() != first_row_columns) {
             log.push_back({
-                static_cast<int32_t>(i),
-                std::format("Строка {} содержит {} столбцов, ожидалось {}",
-                    i, row.size(), first_row_columns)
+                TableFormatterResult::LogEntry::Type::Warning,
+                std::format("Row {} contains {} columns, expected {}",
+                    i, row.size(), first_row_columns),
+                i
             });
         }
 
@@ -50,27 +49,26 @@ auto simpleValidate(TableData const& data)
             // Проверка: строка содержит корректный UTF-8
             if (!utf8::is_valid(cell.begin(), cell.end())) {
                 log.push_back({
-                    static_cast<std::int32_t>(i),
-                    std::format("Строка {}, столбец {}: некорректный UTF-8", i, j)
+                    TableFormatterResult::LogEntry::Type::Warning,
+                    std::format("Row {}, column {}: invalid UTF-8", i, j),
+                    i
                 });
                 continue;
             }
 
             // Вычисляем ширину ячейки в символах (кодовых позициях)
-            std::int64_t cell_width = utf8::distance(cell.begin(), cell.end());
-            row_width_sum += cell_width;
+            row_width_sum += utf8::distance(cell.begin(), cell.end());
         }
 
         // Проверка: сумма ширин столбцов помещается в int32_t
         if (row_width_sum > std::numeric_limits<std::int32_t>::max()) {
             log.push_back({
-                static_cast<std::int32_t>(i),
-                std::format("Строка {}: суммарная ширина превышает лимит int32_t", i)
+                TableFormatterResult::LogEntry::Type::Warning,
+                std::format("Row {}: total width exceeds int32_t limit", i),
+                i
             });
         }
     }
 
     return log;
-}
-
 }

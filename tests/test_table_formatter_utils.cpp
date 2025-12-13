@@ -26,6 +26,7 @@ TEST_SUITE("table_formatter_utils")
         auto log = simpleValidate(table);
 
         CHECK(log.size() == 1);
+        CHECK(log[0].row == 1);
     }
 
     TEST_CASE("invalid utf8")
@@ -36,7 +37,8 @@ TEST_SUITE("table_formatter_utils")
         };
         auto log = simpleValidate(table);
 
-        CHECK(log.size() >= 1);
+        CHECK(log.size() == 1);
+        CHECK(log[0].row == 1);
     }
 
 }
