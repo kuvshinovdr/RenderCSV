@@ -26,9 +26,6 @@ namespace render_csv
         std::ostringstream output;
         const std::size_t numBodyRows = data.body.size();
         
-        // Вычисляем количество столбцов как максимум из:
-        // 1) ширины заголовков
-        // 2) максимальной ширины строк тела таблицы
         std::size_t numCols = data.headers.size();
         for (const auto& row : data.body) {
             numCols = std::max(numCols, row.size());
@@ -64,7 +61,6 @@ namespace render_csv
         }
         output << "\n";
 
-        // Разделительная строка
         output << "|";
         for (std::size_t col = 0; col < numCols; ++col) {
             output << " ";
@@ -99,7 +95,6 @@ namespace render_csv
             output << "\n";
         }
 
-        // Подпись (caption), если есть
         if (!data.caption.empty()) {
             output << "\n: " << data.caption;
         }
